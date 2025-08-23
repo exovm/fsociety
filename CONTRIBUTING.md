@@ -1,4 +1,4 @@
-# Contributing
+# contributing
 
 want to help make this better? cool. here's how to do it without breaking things.
 

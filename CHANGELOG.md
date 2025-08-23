@@ -1,6 +1,6 @@
 # changelog
 
-what's new in each version
+what's new in each version.
 
 ## [3.0.0] - 2024-12-20
 
