@@ -17,7 +17,7 @@ jobs:
       with:
         python-version: '3.9'
     
-    - name: install stuff
+    - name: install dependencies
       run: |
         pip install pyinstaller opencv-python numpy
     
@@ -41,7 +41,7 @@ jobs:
       with:
         python-version: '3.9'
     
-    - name: install stuff
+    - name: install dependencies
       run: |
         pip install pyinstaller opencv-python numpy
     
