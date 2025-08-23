@@ -59,12 +59,14 @@ except ImportError:
     print("Warning: OpenCV not available. Camera functionality will be limited.")
 
 class Colors:
-    RED = ''
-    GREEN = ''
-    YELLOW = ''
-    BLUE = ''
-    PURPLE = ''
-    CYAN = ''
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    WHITE = '\033[97m'
+    GOLD = '\033[33m'
     BOLD = '\033[1m'
     END = '\033[0m'
 
@@ -301,6 +303,18 @@ class RealisticPenTestTerminal:
             'tor': self.tor_manager,
             'vpn': self.vpn_manager,
             'anonymous': self.anonymity_check,
+            
+            # Extended Mr. Robot Commands
+            'allsafe': self.allsafe_hack,
+            'ecorp': self.ecorp_infiltration,
+            'whiterose': self.whiterose_protocol,
+            'darkarmy': self.dark_army_comms,
+            'deus': self.deus_group,
+            'tyrelliot': self.tyrell_elliot,
+            'mindcontrol': self.mind_control_protocol,
+            'congo': self.congo_operation,
+            'alderson': self.alderson_loop,
+            'mastermind': self.mastermind_reveal,
             
             # System Monitoring & Analysis
             'sysmon': self.system_monitor,
@@ -588,14 +602,27 @@ class RealisticPenTestTerminal:
         # Display open ports with service info
         for port in open_ports:
             service_info = services.get(port, (f"service{port}", f"Unknown service {port}"))
-            print(f"{port}/tcp open  {service_info[0]} {service_info[1]}")
-            time.sleep(0.3)
+            state_color = Colors.GREEN if random.random() > 0.1 else Colors.YELLOW
+            state = "open" if state_color == Colors.GREEN else "filtered"
+            print(f"{port}/tcp {state_color}{state:<8}{Colors.END} {service_info[0]:<12} {service_info[1]}")
+            time.sleep(0.2)
             
         # Randomly show some filtered ports
         if random.choice([True, False]):
             print(f"Note: {random.randint(1, 5)} service(s) not shown since they are filtered")
             
-        print(f"[fsociety] Scan complete - {len(open_ports)} open ports found")
+        print(f"")
+        print(f"{Colors.CYAN}[SCAN STATISTICS]{Colors.END}")
+        print(f"Nmap done: 1 IP address (1 host up) scanned in {random.uniform(5.2, 12.8):.2f} seconds")
+        print(f"{Colors.GREEN}[fsociety] Network reconnaissance complete. {len(open_ports)} services identified.{Colors.END}")
+        
+        # Additional security recommendations
+        if any(port in [21, 23, 135, 139, 445] for port in open_ports):
+            print(f"{Colors.RED}[WARNING] High-risk services detected - Immediate attention required{Colors.END}")
+        if 22 in open_ports:
+            print(f"{Colors.YELLOW}[INFO] SSH detected - Consider key-based authentication{Colors.END}")
+        if 80 in open_ports or 443 in open_ports:
+            print(f"{Colors.BLUE}[INFO] Web services found - Recommend directory enumeration{Colors.END}")
         
     def aircrack_attack(self, interface):
         print(f"[fsociety] Wireless network cracking")
@@ -747,17 +774,35 @@ class RealisticPenTestTerminal:
             print(f"| 2  | user     | 098f6bcd4621d373cade4e832627b4f6 |")
             print(f"| 3  | guest    | 5e884898da28047151d0e56f8dc629 |")
             print(f"+----+----------+------------------+")
+            print(f"")
+            print(f"{Colors.GREEN}[SUCCESS] Database contents extracted{Colors.END}")
+            print(f"{Colors.RED}[WARNING] Weak password hashing detected - MD5{Colors.END}")
+            print(f"{Colors.YELLOW}[RECOMMEND] Implement parameterized queries and stronger hashing{Colors.END}")
         else:
-            print(f"[*] GET parameter 'artist' does not seem to be injectable")
+            print(f"{Colors.YELLOW}[*] parameter does not appear to be injectable{Colors.END}")
+            print(f"{Colors.YELLOW}[*] testing other injection vectors...{Colors.END}")
+            time.sleep(2)
+            print(f"{Colors.GREEN}[SECURE] No SQL injection vulnerabilities found{Colors.END}")
+        
+        print(f"")
+        print(f"{Colors.CYAN}[fsociety] SQL injection analysis complete{Colors.END}")
+        print(f"{Colors.PURPLE}\"The most dangerous person is the one who listens, thinks and observes.\" - Bruce Lee{Colors.END}")
             
     def nikto_scan(self, target):
-        print(f"- Nikto v2.5.0")
-        print(f"---------------------------------------------------------------------------")
+        print(f"{Colors.RED}[fsociety] Nikto Web Vulnerability Scanner{Colors.END}")
+        print(f"")
+        print(f"{Colors.YELLOW}- Nikto v2.5.0 - fsociety edition{Colors.END}")
+        print(f"{Colors.CYAN}---------------------------------------------------------------------------{Colors.END}")
         print(f"+ Target IP:          {target}")
         print(f"+ Target Hostname:    {target.replace('http://', '').replace('https://', '')}")
-        print(f"+ Target Port:        80")
+        print(f"+ Target Port:        {random.choice([80, 443, 8080, 8443])}")
         print(f"+ Start Time:         {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} (GMT)")
-        print(f"---------------------------------------------------------------------------")
+        print(f"{Colors.CYAN}---------------------------------------------------------------------------{Colors.END}")
+        print(f"")
+        
+        # Scanning progress
+        print(f"{Colors.YELLOW}[INFO] Scanning web server for vulnerabilities...{Colors.END}")
+        time.sleep(1)
         
         all_vulnerabilities = [
             "+ Server: Apache/2.4.41 (Ubuntu)",
@@ -776,11 +821,30 @@ class RealisticPenTestTerminal:
         num_vulns = random.randint(3, 5)
         vulnerabilities = random.sample(all_vulnerabilities, min(num_vulns, len(all_vulnerabilities)))
         
+        # Enhanced vulnerability display
+        vuln_count = 0
         for vuln in vulnerabilities:
-            print(vuln)
-            time.sleep(0.3)
-            
-        print(f"+ {len(vulnerabilities)} vulnerability(ies) found")
+            vuln_count += 1
+            if "/admin/" in vuln or "phpMyAdmin" in vuln:
+                print(f"{Colors.RED}{vuln}{Colors.END}")
+            elif "config" in vuln or "backup" in vuln:
+                print(f"{Colors.YELLOW}{vuln}{Colors.END}")
+            else:
+                print(f"{Colors.CYAN}{vuln}{Colors.END}")
+            time.sleep(0.4)
+        
+        print(f"")
+        print(f"{Colors.CYAN}---------------------------------------------------------------------------{Colors.END}")
+        print(f"{Colors.GREEN}+ {len(vulnerabilities)} vulnerability(ies) found{Colors.END}")
+        
+        # Risk assessment
+        high_risk = any(keyword in str(vulnerabilities) for keyword in ['/admin/', 'config', 'backup', 'phpMyAdmin'])
+        if high_risk:
+            print(f"{Colors.RED}[HIGH RISK] Critical vulnerabilities detected{Colors.END}")
+        else:
+            print(f"{Colors.YELLOW}[MEDIUM RISK] Standard web server issues found{Colors.END}")
+        
+        print(f"{Colors.CYAN}[fsociety] Web vulnerability scan complete{Colors.END}")
         
     def dirb_scan(self, target):
         print(f"")
@@ -1077,26 +1141,50 @@ Join the revolution.
         self.typewriter_effect(manifesto, 0.02)
         
     def elliot_tools(self):
-        print(f"[Elliot's Personal Toolkit]")
+        print(f"{Colors.CYAN}[Elliot's Personal Toolkit - Advanced Arsenal]{Colors.END}")
         print(f"")
-        print(f"Advanced Social Engineering:")
-        print(f"* social_mapper - Social media reconnaissance")
-        print(f"* the_harvester - Email and subdomain gathering")
-        print(f"* maltego - Link analysis and data mining")
-        print(f"* sherlock - Username enumeration across platforms")
+        print(f"{Colors.YELLOW}Social Engineering Framework:{Colors.END}")
+        print(f"• social_mapper    - Cross-platform social media reconnaissance")
+        print(f"• the_harvester    - Email, subdomain, and employee enumeration")
+        print(f"• maltego         - Advanced link analysis and data mining")
+        print(f"• sherlock        - Username hunting across 400+ platforms")
+        print(f"• spiderfoot      - Automated OSINT intelligence gathering")
+        print(f"• recon_ng        - Full-featured web reconnaissance framework")
         print(f"")
-        print(f"Custom Exploits:")
-        print(f"* allsafe_backdoor.py - AllSafe security bypass")
-        print(f"* ecorp_database.sql - Evil Corp DB injection")
-        print(f"* steel_mountain.sh - Steel Mountain privilege escalation")
-        print(f"* raspberry_pi.py - IoT device compromise")
+        print(f"{Colors.YELLOW}Custom Exploit Arsenal:{Colors.END}")
+        print(f"• allsafe_backdoor.py      - AllSafe security bypass toolkit")
+        print(f"• ecorp_database.sql       - Evil Corp database injection suite")
+        print(f"• steel_mountain.sh        - Steel Mountain privilege escalation")
+        print(f"• raspberry_pi_exploit.py  - IoT device compromise framework")
+        print(f"• neural_scanner.py        - AI-powered vulnerability detection")
+        print(f"• quantum_decrypt.py       - Quantum encryption breaker simulation")
+        print(f"• zero_day_kit.sh          - Advanced 0-day exploit framework")
+        print(f"• blockchain_pen.py        - DeFi protocol penetration tools")
         print(f"")
-        print(f"Psychological Operations:")
-        print(f"* phishing_templates/ - Custom phishing campaigns")
-        print(f"* social_profiles/ - Fake identity management")
-        print(f"* deepfake_generator - Voice and video manipulation")
+        print(f"{Colors.YELLOW}Advanced Infiltration:{Colors.END}")
+        print(f"• deepweb_crawler.py       - Dark web intelligence harvester")
+        print(f"• satellite_hijack.py      - Satellite communication interceptor")
+        print(f"• biometric_spoof.py       - Fingerprint/facial recognition bypass")
+        print(f"• supply_chain_poison.py   - Software supply chain attack tools")
+        print(f"• firmware_rootkit.py      - Hardware-level persistence toolkit")
+        print(f"• 5g_network_exploit.py    - Cellular infrastructure attack suite")
         print(f"")
-        print(f"\"Sometimes it's the people no one expects anything from who do the things no one can imagine.\"")
+        print(f"{Colors.YELLOW}Psychological Operations:{Colors.END}")
+        print(f"• phishing_templates/      - Advanced phishing campaign generator")
+        print(f"• social_profiles/         - Deep fake identity management system")
+        print(f"• deepfake_generator.py    - Voice and video manipulation toolkit")
+        print(f"• behavioral_analysis.py   - Target psychological profiling")
+        print(f"• narrative_control.py     - Information warfare and disinformation")
+        print(f"")
+        print(f"{Colors.YELLOW}Next-Generation Warfare:{Colors.END}")
+        print(f"• cyber_warfare_suite.py   - Nation-state attack simulation")
+        print(f"• quantum_tunneling.py     - Quantum network penetration")
+        print(f"• ai_adversarial.py        - Machine learning attack framework")
+        print(f"• time_lock_crypto.py      - Temporal cryptographic attacks")
+        print(f"")
+        print(f"{Colors.GREEN}Status: All tools operational and ready for deployment{Colors.END}")
+        print(f"{Colors.PURPLE}\"Sometimes it's the people no one expects anything from who do the things no one can imagine.\"{Colors.END}")
+        print(f"{Colors.RED}Remember: With great power comes great responsibility.{Colors.END}")
         
     def mr_robot_status(self):
         print(f"[MR. ROBOT SYSTEM STATUS]")
@@ -1118,15 +1206,383 @@ Join the revolution.
         print(f"\"Control is an illusion.\"")
         
     def stage2_execute(self):
-        print(f"[STAGE 2 - FIVE/NINE CONTINUATION]")
+        print(f"{Colors.RED}[STAGE 2 - OPERATION BERENSTAIN]{Colors.END}")
         print(f"")
-        print(f"Initializing Stage 2 protocols...")
+        print(f"{Colors.YELLOW}Initializing Stage 2 protocols...{Colors.END}")
         self.progress_bar("Loading encrypted payload")
+        time.sleep(1)
         
         print(f"")
-        print(f"STAGE 2 OBJECTIVES:")
-        print(f"* Eliminate all paper records")
-        print(f"* Destroy backup facilities")
+        print(f"{Colors.CYAN}STAGE 2 OBJECTIVES:{Colors.END}")
+        print(f"• Target: 71 Evil Corp paper backup facilities")
+        print(f"• Eliminate all physical debt records")
+        print(f"• Coordinate with Dark Army operatives")
+        print(f"• Timeline: 24-hour synchronized strike")
+        print(f"• Collateral assessment: Minimize civilian casualties")
+        
+        print(f"")
+        print(f"{Colors.YELLOW}Loading building schematics...{Colors.END}")
+        time.sleep(2)
+        print(f"{Colors.YELLOW}Analyzing security protocols...{Colors.END}")
+        time.sleep(2)
+        print(f"{Colors.YELLOW}Establishing Dark Army communication...{Colors.END}")
+        time.sleep(2)
+        print(f"{Colors.YELLOW}Synchronizing global timing mechanisms...{Colors.END}")
+        time.sleep(1.5)
+        
+        print(f"")
+        print(f"{Colors.GREEN}STAGE 2 STATUS: READY FOR EXECUTION{Colors.END}")
+        print(f"{Colors.RED}WARNING: This operation will cause unprecedented economic disruption{Colors.END}")
+        print(f"{Colors.RED}Estimated impact: Complete restructuring of global financial system{Colors.END}")
+        print(f"")
+        print(f"{Colors.PURPLE}\"What if changing the world was just about being here, by showing up no matter how many times we get told we don't belong?\"{Colors.END}")
+    
+    def show_character_intro(self):
+        """Display Mr. Robot character introduction with ASCII art"""
+        # Clear screen
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            os.system('clear')
+        
+        # Mr. Robot ASCII art
+        mr_robot_art = f"""{Colors.GREEN}
+    ╔══════════════════════════════════════════════════════════╗
+    ║                                                          ║
+    ║        ███    ███ ██████      ██████   ██████  ██████████ ║
+    ║        ████  ████ ██   ██     ██   ██ ██    ██ ██   ██   ║
+    ║        ██ ████ ██ ██████      ██████  ██    ██ ██████    ║
+    ║        ██  ██  ██ ██   ██     ██   ██ ██    ██ ██   ██   ║
+    ║        ██      ██ ██   ██ ██  ██   ██  ██████  ██████████ ║
+    ║                                                          ║
+    ║           ██     ███    ██ ██████      ██████████        ║
+    ║          ████    ████   ██ ██   ██           ██          ║
+    ║         ██  ██   ██ ██  ██ ██   ██           ██          ║
+    ║        ██    ██  ██  ██ ██ ██   ██           ██          ║
+    ║        ████████  ██   ████ ██████            ██          ║
+    ║                                                          ║
+    ╚══════════════════════════════════════════════════════════╝{Colors.END}
+        """
+        
+        # Type out the ASCII art
+        for line in mr_robot_art.split('\n'):
+            print(line)
+            time.sleep(0.1)
+        
+        time.sleep(1)
+        
+        # Elliot's face ASCII art
+        elliot_face = f"""{Colors.CYAN}
+                           ░░░░░░░░░░░░░░░░░░░░░░░░░
+                         ░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░
+                        ░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░
+                       ░▒▓██████████████████████▓▒░
+                      ░▒▓██▓▓▓▓██████████▓▓▓▓██▓▒░
+                      ░▒▓██▓░░▓██████████▓░░▓██▓▒░
+                      ░▒▓██▓▓▓▓██████████▓▓▓▓██▓▒░
+                      ░▒▓████████████████████████▓▒░
+                      ░▒▓██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██▓▒░
+                       ░▒▓██▓▓▓▓▓▓████▓▓▓▓▓▓██▓▒░
+                        ░▒▓▓▓▓▓▓▓▓▓██▓▓▓▓▓▓▓▓▓▒░
+                         ░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░
+                           ░░░░░░░░░░░░░░░░░░░
+    
+                              ELLIOT ALDERSON{Colors.END}
+        """
+        
+        print(elliot_face)
+        time.sleep(2)
+        
+        # Character dialogue
+        dialogue = [
+            f"{Colors.YELLOW}[ELLIOT]: Hello friend... Are you there?{Colors.END}",
+            f"{Colors.RED}[MR. ROBOT]: We need to talk.{Colors.END}",
+            f"{Colors.YELLOW}[ELLIOT]: The world is a dangerous place, not because of evil, but because of indifference.{Colors.END}",
+            f"{Colors.RED}[MR. ROBOT]: Control is an illusion.{Colors.END}",
+            f"{Colors.CYAN}[SYSTEM]: Initializing fsociety protocols...{Colors.END}"
+        ]
+        
+        for line in dialogue:
+            print(line)
+            time.sleep(1.5)
+        
+        time.sleep(2)
+    
+    def enhanced_loading_sequence(self):
+        """Enhanced loading sequence with character faces"""
+        print(f"{Colors.CYAN}[LOADING FSOCIETY TERMINAL]{Colors.END}")
+        print()
+        
+        # Loading phases with character animations
+        phases = [
+            ("Establishing encrypted connection", "elliot"),
+            ("Loading exploit frameworks", "mrrobot"),
+            ("Initializing social engineering tools", "elliot"),
+            ("Configuring anonymity protocols", "mrrobot"),
+            ("Preparing digital arsenal", "elliot"),
+            ("Connecting to the collective", "mrrobot")
+        ]
+        
+        for phase, character in phases:
+            print(f"{Colors.YELLOW}[{character.upper()}]{Colors.END} {phase}...")
+            
+            # Mini character face based on who's 'speaking'
+            if character == "elliot":
+                face = f"{Colors.CYAN}    ◉   ◉  {Colors.END}"
+            else:
+                face = f"{Colors.RED}    ●   ●  {Colors.END}"
+            
+            print(face)
+            
+            # Progress animation
+            for i in range(20):
+                if i % 5 == 0:
+                    print(f"\r{Colors.GREEN}{'█' * (i//4)}{'░' * (5-(i//4))}{Colors.END} {(i//4)*20}%", end="", flush=True)
+                time.sleep(0.1)
+            
+            print(f"\r{Colors.GREEN}█████{Colors.END} 100% COMPLETE")
+            time.sleep(0.5)
+            print()
+        
+        print(f"{Colors.GREEN}[FSOCIETY] All systems operational{Colors.END}")
+        print(f"{Colors.PURPLE}\"We are fsociety. We are legion.\"{Colors.END}")
+        time.sleep(1)
+    
+    def allsafe_hack(self):
+        """Simulate the AllSafe hack from Mr. Robot"""
+        print(f"{Colors.RED}[ALLSAFE CYBERSECURITY BREACH]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Initiating social engineering attack...{Colors.END}")
+        time.sleep(1)
+        print(f"{Colors.YELLOW}Deploying Raspberry Pi malware...{Colors.END}")
+        self.progress_bar("Infiltrating AllSafe network")
+        print()
+        print(f"{Colors.CYAN}Target: Evil Corp client data{Colors.END}")
+        print(f"Method: Inside job + social manipulation")
+        print(f"Entry point: Employee workstation compromise")
+        print(f"Payload: Climate control backdoor")
+        print()
+        print(f"{Colors.GREEN}[SUCCESS] AllSafe security perimeter breached{Colors.END}")
+        print(f"{Colors.PURPLE}\"I am Mr. Robot.\" - Elliot Alderson{Colors.END}")
+    
+    def ecorp_infiltration(self):
+        """Simulate Evil Corp infiltration"""
+        print(f"{Colors.RED}[EVIL CORP INFILTRATION PROTOCOL]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Target: Evil Corp Financial Database{Colors.END}")
+        print(f"Objective: Consumer debt record elimination")
+        print()
+        self.progress_bar("Accessing Steel Mountain facility")
+        print()
+        print(f"{Colors.CYAN}INFILTRATION VECTOR:{Colors.END}")
+        print(f"• Social engineering attack on facility staff")
+        print(f"• Physical access through climate control system")
+        print(f"• Malware deployment via Raspberry Pi")
+        print(f"• Database encryption key extraction")
+        print(f"• Mass consumer debt record deletion")
+        print()
+        print(f"{Colors.GREEN}[OPERATION STATUS] Ready for 5/9 execution{Colors.END}")
+        print(f"{Colors.RED}WARNING: This will restructure the global economy{Colors.END}")
+    
+    def whiterose_protocol(self):
+        """WhiteRose's time-sensitive operations"""
+        print(f"{Colors.PURPLE}[WHITEROSE PROTOCOL - CLASSIFIED]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Time is an illusion. Timing is everything.{Colors.END}")
+        print()
+        current_time = datetime.datetime.now().strftime("%H:%M:%S")
+        print(f"Current timeline: {current_time}")
+        print(f"Quantum synchronization: ACTIVE")
+        print(f"Parallel reality monitoring: ENGAGED")
+        print()
+        print(f"{Colors.CYAN}ACTIVE OPERATIONS:{Colors.END}")
+        print(f"• Congo Power Plant Project: {Colors.GREEN}ON SCHEDULE{Colors.END}")
+        print(f"• Parallel Reality Machine: {Colors.YELLOW}87% COMPLETE{Colors.END}")
+        print(f"• Washington Township Cleanup: {Colors.RED}DELAYED{Colors.END}")
+        print(f"• Dark Army Coordination: {Colors.GREEN}OPERATIONAL{Colors.END}")
+        print()
+        print(f"{Colors.PURPLE}\"Patience. The game is not over yet.\" - WhiteRose{Colors.END}")
+    
+    def dark_army_comms(self):
+        """Dark Army communication system"""
+        print(f"{Colors.RED}[DARK ARMY COMMUNICATION NETWORK]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Establishing secure communication channels...{Colors.END}")
+        time.sleep(1)
+        print()
+        print(f"{Colors.CYAN}ACTIVE OPERATIVES:{Colors.END}")
+        operatives = ["IRVING", "LEON", "CISCO", "JOANNA", "DOM"]
+        for operative in operatives:
+            status = random.choice(["ONLINE", "MISSION ACTIVE", "STANDBY", "COMPROMISED"])
+            color = Colors.GREEN if status == "ONLINE" else Colors.YELLOW if status == "STANDBY" else Colors.RED
+            print(f"• {operative}: {color}{status}{Colors.END}")
+            time.sleep(0.5)
+        print()
+        print(f"{Colors.CYAN}ENCRYPTED MESSAGES:{Colors.END}")
+        messages = [
+            "Operation Stage 2 confirmed for execution",
+            "WhiteRose requests status update",
+            "FBI surveillance detected - initiate countermeasures",
+            "Tyrell Wellick location compromised"
+        ]
+        for msg in messages:
+            print(f"• {msg}")
+            time.sleep(0.8)
+    
+    def deus_group(self):
+        """Deus Group financial manipulation"""
+        print(f"{Colors.GOLD}[DEUS GROUP - GLOBAL FINANCIAL CONTROL]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Accessing global financial networks...{Colors.END}")
+        self.progress_bar("Infiltrating banking systems")
+        print()
+        print(f"{Colors.CYAN}TOP 1% OF THE TOP 1%:{Colors.END}")
+        members = [
+            "Phillip Price - E Corp CEO",
+            "Whiterose - Chinese Minister/Dark Army Leader",
+            "Zhang - Quantum Computing Magnate", 
+            "Freddy Lomax - Banking Consortium",
+            "Olivia Cortez - Global Investment Fund"
+        ]
+        for member in members:
+            print(f"• {member}")
+            time.sleep(0.7)
+        print()
+        print(f"{Colors.YELLOW}FINANCIAL MANIPULATION DETECTED:{Colors.END}")
+        print(f"• Currency exchange rate manipulation")
+        print(f"• Cryptocurrency market control")
+        print(f"• Global debt restructuring schemes")
+        print(f"• Political influence through economic leverage")
+        print()
+        print(f"{Colors.RED}[WARNING] These individuals control 70% of global wealth{Colors.END}")
+    
+    def alderson_loop(self):
+        """Alderson Loop explanation and simulation"""
+        print(f"{Colors.CYAN}[ALDERSON LOOP - MENTAL PROTECTION PROTOCOL]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Analyzing psychological defense mechanisms...{Colors.END}")
+        time.sleep(2)
+        print()
+        print(f"{Colors.PURPLE}LOOP EXPLANATION:{Colors.END}")
+        print(f"The Alderson Loop is a mental construct designed to:")
+        print(f"• Protect the host from traumatic memories")
+        print(f"• Create alternate personalities as coping mechanisms")
+        print(f"• Maintain functional capacity during extreme stress")
+        print(f"• Loop traumatic events until resolution is achieved")
+        print()
+        print(f"{Colors.YELLOW}ACTIVE PERSONALITIES DETECTED:{Colors.END}")
+        personalities = [
+            "Elliot Alderson - Primary Host",
+            "Mr. Robot - Protector/Hacker", 
+            "The Mastermind - Controller",
+            "The Real Elliot - Original Personality (Hidden)"
+        ]
+        for personality in personalities:
+            print(f"• {personality}")
+            time.sleep(1)
+        print()
+        print(f"{Colors.RED}[WARNING] Loop integrity compromised - Integration required{Colors.END}")
+        print(f"{Colors.PURPLE}\"Hello, friend. Do you remember me?\" - The Real Elliot{Colors.END}")
+    
+    def mastermind_reveal(self):
+        """The Mastermind's final revelation"""
+        print(f"{Colors.RED}[MASTERMIND PROTOCOL - FINAL REVELATION]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Initiating personality integration sequence...{Colors.END}")
+        time.sleep(2)
+        print()
+        print(f"{Colors.PURPLE}MASTERMIND CONFESSION:{Colors.END}")
+        confession = [
+            "\"You were never the real Elliot.\"",
+            "\"You were created to handle the anger and rage.\"",
+            "\"I am the mastermind. I am the one in control.\"",
+            "\"But I was supposed to give control back...\"",
+            "\"I was supposed to be temporary.\"",
+            "\"I'm sorry. I'm so sorry.\""
+        ]
+        for line in confession:
+            print(f"{Colors.CYAN}{line}{Colors.END}")
+            time.sleep(2)
+        print()
+        print(f"{Colors.GREEN}[INTEGRATION COMPLETE] Returning control to the real Elliot{Colors.END}")
+        print(f"{Colors.YELLOW}\"Goodbye, friend.\" - The Mastermind{Colors.END}")
+        print(f"{Colors.PURPLE}\"Hello, friend. I'm the real Elliot.\" - Elliot Alderson{Colors.END}")
+    
+    def tyrell_elliot(self):
+        """Tyrell and Elliot dynamic"""
+        print(f"{Colors.BLUE}[TYRELL WELLICK - ELLIOT ALDERSON DYNAMIC]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Analyzing complex relationship patterns...{Colors.END}")
+        time.sleep(1.5)
+        print()
+        print(f"{Colors.CYAN}TYRELL WELLICK PROFILE:{Colors.END}")
+        print(f"• Position: Former E Corp CTO")
+        print(f"• Status: Fugitive / Dark Army Asset")
+        print(f"• Obsession: Elliot Alderson")
+        print(f"• Psychology: Narcissistic, ambitious, desperate for validation")
+        print()
+        print(f"{Colors.YELLOW}KEY INTERACTIONS:{Colors.END}")
+        interactions = [
+            "\"I thought you were like me, but you're not\"",
+            "\"You're not seeing what's above you\"", 
+            "\"I love him. I love Elliot Alderson\"",
+            "\"Where are we going? We're going home.\""
+        ]
+        for interaction in interactions:
+            print(f"• {interaction}")
+            time.sleep(1.2)
+        print()
+        print(f"{Colors.RED}[STATUS] Last known location: Upstate New York forest{Colors.END}")
+        print(f"{Colors.PURPLE}\"Don't mistake my generosity for generosity.\" - Tyrell{Colors.END}")
+    
+    def congo_operation(self):
+        """Congo power plant operation"""
+        print(f"{Colors.YELLOW}[OPERATION CONGO - POWER PLANT INFILTRATION]{Colors.END}")
+        print()
+        print(f"{Colors.RED}[CLASSIFIED] WhiteRose Special Project{Colors.END}")
+        print()
+        print(f"{Colors.CYAN}MISSION PARAMETERS:{Colors.END}")
+        print(f"• Target: Congo Nuclear Power Plant")
+        print(f"• Objective: Facility relocation to Washington Township")
+        print(f"• Timeline: Post-Stage 2 completion")
+        print(f"• Purpose: [REDACTED] - Quantum Machine Project")
+        print()
+        print(f"{Colors.YELLOW}Loading facility blueprints...{Colors.END}")
+        time.sleep(2)
+        print(f"{Colors.YELLOW}Analyzing security protocols...{Colors.END}")
+        time.sleep(1.5)
+        print(f"{Colors.YELLOW}Coordinating shipping logistics...{Colors.END}")
+        time.sleep(1)
+        print()
+        print(f"{Colors.GREEN}[OPERATION STATUS] Transport approved by UN Resolution{Colors.END}")
+        print(f"{Colors.RED}[WARNING] Radiation exposure risk to local population{Colors.END}")
+        print(f"{Colors.PURPLE}\"Some things are worth the sacrifice.\" - WhiteRose{Colors.END}")
+    
+    def mind_control_protocol(self):
+        """Mind control and manipulation themes from the show"""
+        print(f"{Colors.PURPLE}[MIND CONTROL PROTOCOL - PSYCHOLOGICAL ANALYSIS]{Colors.END}")
+        print()
+        print(f"{Colors.YELLOW}Analyzing psychological manipulation techniques...{Colors.END}")
+        time.sleep(2)
+        print()
+        print(f"{Colors.CYAN}CONTROL MECHANISMS DETECTED:{Colors.END}")
+        mechanisms = [
+            "Dissociative Identity Disorder exploitation",
+            "Childhood trauma manipulation", 
+            "Social isolation and dependency creation",
+            "Reality distortion through controlled environments",
+            "Memory suppression and false narrative implantation",
+            "Emotional manipulation through perceived threats"
+        ]
+        for mechanism in mechanisms:
+            print(f"• {mechanism}")
+            time.sleep(1)
+        print()
+        print(f"{Colors.RED}[WARNING] Multiple subjects showing signs of psychological control{Colors.END}")
+        print(f"Affected individuals: Elliot, Angela, Darlene, Tyrell")
+        print()
+        print(f"{Colors.YELLOW}RECOMMENDATION: Immediate psychological intervention required{Colors.END}")
+        print(f"{Colors.PURPLE}\"Control is an illusion, but so is chaos.\" - Mr. Robot{Colors.END}")
         print(f"* Target: 71 E Corp facilities")
         print(f"* Timeline: 24 hours")
         print(f"")
@@ -2340,6 +2796,9 @@ Join the revolution.
         # Enable fullscreen mode
         self.enable_fullscreen()
         
+        # Show Mr. Robot character introduction
+        self.show_character_intro()
+        
         # Matrix loading effect (with error handling)
         if not self.safe_mode:
             try:
@@ -2368,9 +2827,9 @@ Join the revolution.
         
         time.sleep(1.5)
         
-        # Enhanced hacker loading sequence
+        # Enhanced hacker loading sequence with face animations
         print("\n")
-        self.hacker_loading_sequence()
+        self.enhanced_loading_sequence()
         
         print("\n")
         
@@ -2581,6 +3040,10 @@ CRYPTO & UTILITIES:
 FSOCIETY SPECIAL OPERATIONS:
 * fsociety, elliot, mrrobot      - fsociety tools and information
 * stage2, five9, camera          - Special operations and surveillance
+* allsafe, ecorp, whiterose      - Target-specific infiltration protocols
+* darkarmy, deus, tyrelliot      - Advanced network operations
+* alderson, mastermind, congo    - Psychological and strategic analysis
+* mindcontrol                    - Advanced manipulation detection
 
 SYSTEM COMMANDS:
 * ps, netstat, top, find, grep   - System utilities and text processing
