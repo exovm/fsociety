@@ -239,4 +239,4 @@ class FSocietyTextEditor:
 
 if __name__ == "__main__":
     editor = FSocietyTextEditor()
-    editor.run()
+    editor.run() 
