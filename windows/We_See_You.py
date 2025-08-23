@@ -53,6 +53,8 @@ if os.name == 'nt':
 try:
     import cv2
     import numpy as np
+    import urllib.request
+    import tempfile
     CV2_AVAILABLE = True
 except ImportError:
     CV2_AVAILABLE = False
@@ -1347,6 +1349,64 @@ Join the revolution.
         print(f"{Colors.GREEN}[FSOCIETY] All systems operational{Colors.END}")
         print(f"{Colors.PURPLE}\"We are fsociety. We are legion.\"{Colors.END}")
         time.sleep(1)
+    
+    def display_elliot_image(self):
+        """Display Elliot's image during startup if OpenCV is available"""
+        if not CV2_AVAILABLE:
+            print(f"{Colors.YELLOW}[INFO] Image display unavailable - OpenCV not installed{Colors.END}")
+            return False
+        
+        try:
+            # Elliot image URL
+            image_url = "https://media.kasperskydaily.com/wp-content/uploads/sites/85/2017/10/11055507/mr-robot-safety-tips-featured.jpg"
+            
+            print(f"{Colors.CYAN}[LOADING] Downloading Elliot's image...{Colors.END}")
+            
+            # Download image to temporary file
+            with urllib.request.urlopen(image_url) as response:
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp_file:
+                    tmp_file.write(response.read())
+                    temp_path = tmp_file.name
+            
+            # Load and display image
+            img = cv2.imread(temp_path)
+            if img is not None:
+                # Resize image to fit terminal better
+                height, width = img.shape[:2]
+                max_width = 800
+                if width > max_width:
+                    scale = max_width / width
+                    new_width = int(width * scale)
+                    new_height = int(height * scale)
+                    img = cv2.resize(img, (new_width, new_height))
+                
+                # Add text overlay
+                cv2.putText(img, 'ELLIOT ALDERSON', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3)
+                cv2.putText(img, 'fsociety terminal loading...', (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
+                
+                # Display image
+                cv2.imshow('fsociety - Elliot Alderson', img)
+                
+                print(f"{Colors.GREEN}[SUCCESS] Elliot's image loaded - Press any key in image window to continue{Colors.END}")
+                print(f"{Colors.YELLOW}[INFO] Image source: {image_url}{Colors.END}")
+                
+                # Wait for key press and close
+                cv2.waitKey(3000)  # Auto-close after 3 seconds or key press
+                cv2.destroyAllWindows()
+                
+                # Clean up temp file
+                import os
+                os.unlink(temp_path)
+                
+                return True
+            else:
+                print(f"{Colors.RED}[ERROR] Could not load image{Colors.END}")
+                return False
+                
+        except Exception as e:
+            print(f"{Colors.RED}[ERROR] Failed to display image: {str(e)}{Colors.END}")
+            print(f"{Colors.YELLOW}[FALLBACK] Using ASCII art instead{Colors.END}")
+            return False
     
     def allsafe_hack(self):
         """Simulate the AllSafe hack from Mr. Robot"""
@@ -2796,8 +2856,16 @@ Join the revolution.
         # Enable fullscreen mode
         self.enable_fullscreen()
         
+        # Show Elliot's image first
+        image_displayed = self.display_elliot_image()
+        
         # Show Mr. Robot character introduction
         self.show_character_intro()
+        
+        # If image wasn't displayed, show more ASCII art
+        if not image_displayed:
+            print(f"{Colors.YELLOW}[FALLBACK] Enhanced ASCII display mode{Colors.END}")
+            time.sleep(1)
         
         # Matrix loading effect (with error handling)
         if not self.safe_mode:
