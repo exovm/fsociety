@@ -27,9 +27,9 @@ echo.
 echo Installation complete!
 echo.
 echo You can now run fsociety terminal using:
-echo   - RUN_ME.bat (for quick launch)
-echo   - build_exe.bat (to create executable)
-echo   - edit_text.bat (to customize messages)
+echo   - cd windows ^&^& RUN_ME.bat (for quick launch)
+echo   - cd windows ^&^& build_exe.bat (to create executable)  
+echo   - cd windows ^&^& edit_text.bat (to customize messages)
 echo.
 echo ================================================================
 echo              WELCOME TO THE FSOCIETY COLLECTIVE

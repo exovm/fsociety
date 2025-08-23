@@ -6,6 +6,9 @@ echo "                         macOS Version"
 echo "================================================================"
 echo ""
 
+# Go to parent directory first
+cd "$(dirname "$0")/.."
+
 # Check if Python 3 is installed
 if ! command -v python3 &> /dev/null; then
     echo "ERROR: Python 3 is not installed"
@@ -23,15 +26,14 @@ echo ""
 pip3 install opencv-python numpy pyinstaller
 
 # Make shell scripts executable
-chmod +x build_macos.sh
-chmod +x run_macos.sh
+chmod +x macos/*.sh
 
 echo ""
 echo "Installation complete!"
 echo ""
 echo "You can now run fsociety terminal using:"
-echo "  - ./run_macos.sh (for quick launch)"
-echo "  - ./build_macos.sh (to create executable)"
+echo "  - cd macos && ./run_macos.sh (for quick launch)"
+echo "  - cd macos && ./build_macos.sh (to create executable)"
 echo "  - python3 text_editor.py (to customize messages)"
 echo ""
 echo "================================================================"

@@ -18,7 +18,7 @@ got 80+ commands that simulate everything from nmap to metasploit. perfect for l
 ### windows
 ```
 git clone https://github.com/exovm/fsociety.git
-cd fsociety
+cd fsociety/windows
 install_windows.bat
 RUN_ME.bat
 ```
@@ -26,8 +26,8 @@ RUN_ME.bat
 ### mac
 ```
 git clone https://github.com/exovm/fsociety.git
-cd fsociety
-chmod +x install_macos.sh
+cd fsociety/macos
+chmod +x *.sh
 ./install_macos.sh
 ./run_macos.sh
 ```
@@ -76,14 +76,14 @@ chmod +x install_macos.sh
 
 everything is configurable through text files:
 
-- run `edit_text.bat` on windows or `python3 text_editor.py` on mac
+- run `cd windows && edit_text.bat` on windows or `python3 text_editor.py` on mac
 - edit `text_config.json` directly if you want
 - change loading messages, banners, command responses, whatever
 
 ## building executables
 
-**windows**: run `build_exe.bat`  
-**mac**: run `./build_macos.sh`
+**windows**: `cd windows && build_exe.bat`  
+**mac**: `cd macos && ./build_macos.sh`
 
 creates standalone executables so you don't need python installed.
 
@@ -91,8 +91,8 @@ creates standalone executables so you don't need python installed.
 
 if the visual effects mess up your terminal:
 ```
-RUN_ME.bat --safe        # windows
-./run_macos.sh --safe    # mac
+cd windows && RUN_ME.bat --safe        # windows
+cd macos && ./run_macos.sh --safe      # mac
 ```
 
 ## project structure
@@ -103,10 +103,15 @@ fsociety/
 ├── extended_commands.py    # extra command implementations  
 ├── text_config.json        # customizable text
 ├── text_editor.py          # config editor
-├── install_windows.bat     # windows setup
-├── install_macos.sh        # mac setup  
-├── RUN_ME.bat             # windows launcher
-└── run_macos.sh           # mac launcher
+├── windows/                # windows specific files
+│   ├── install_windows.bat # windows installer
+│   ├── build_exe.bat       # build windows executable  
+│   ├── RUN_ME.bat         # windows launcher
+│   └── edit_text.bat      # windows text editor launcher
+└── macos/                 # mac specific files
+    ├── install_macos.sh   # mac installer
+    ├── build_macos.sh     # build mac executable
+    └── run_macos.sh       # mac launcher
 ```
 
 ## troubleshooting
@@ -120,7 +125,7 @@ A: you don't have python installed or it's not in your PATH. download python fro
 A: run command prompt as administrator or use `pip install --user opencv-python numpy`
 
 **Q: the terminal looks weird/corrupted**  
-A: your terminal doesn't support the visual effects. run with `RUN_ME.bat --safe` instead.
+A: your terminal doesn't support the visual effects. run with `cd windows && RUN_ME.bat --safe` instead.
 
 **Q: "cv2 module not found"**  
 A: opencv didn't install properly. try `pip uninstall opencv-python` then `pip install opencv-python`
@@ -140,10 +145,10 @@ A: install python3 from python.org or use homebrew: `brew install python3`
 A: try `pip3 install --user opencv-python numpy` or use `python3 -m pip install opencv-python numpy`
 
 **Q: terminal effects don't work**  
-A: some mac terminals don't support all effects. use `./run_macos.sh --safe` for compatibility mode.
+A: some mac terminals don't support all effects. use `cd macos && ./run_macos.sh --safe` for compatibility mode.
 
 **Q: "cannot execute binary file"**  
-A: you might be on an M1 mac trying to run an intel build. compile from source with `./build_macos.sh`
+A: you might be on an M1 mac trying to run an intel build. compile from source with `cd macos && ./build_macos.sh`
 
 ### both platforms
 

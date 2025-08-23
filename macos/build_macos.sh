@@ -3,6 +3,9 @@
 echo "Building fsociety terminal for macOS..."
 echo ""
 
+# Go to parent directory
+cd "$(dirname "$0")/.."
+
 # Check if Python is available
 if ! command -v python3 &> /dev/null; then
     echo "Python 3 is required but not installed. Please install Python 3."

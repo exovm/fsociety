@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # fsociety Terminal Launcher for macOS
-# Make sure we're in the right directory
-cd "$(dirname "$0")"
+# Make sure we're in the parent directory
+cd "$(dirname "$0")/.."
 
 # Check if Python 3 is available
 if ! command -v python3 &> /dev/null; then
