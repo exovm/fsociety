@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 fsociety Terminal Contributors
+Copyright (c) 2024 fsociety terminal contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-EDUCATIONAL PURPOSE DISCLAIMER:
-This software is intended for educational and training purposes only. Users
-are solely responsible for ensuring compliance with all applicable laws and
-regulations. The authors disclaim any responsibility for misuse of this
-software. This tool should only be used on systems you own or have explicit
-authorization to test.
+---
+
+educational use only. don't be stupid with it. only use on systems you own 
+or have permission to test. not my fault if you get in trouble.

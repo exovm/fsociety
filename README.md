@@ -1,207 +1,179 @@
-# fsociety Terminal
+# fsociety terminal
 
-A cybersecurity education terminal inspired by the Mr. Robot TV series. This project provides an immersive penetration testing simulation environment for learning cybersecurity concepts and tools.
+basically a mr robot inspired hacker terminal that actually looks legit instead of that hollywood garbage. built this because i got tired of seeing "hacking" scenes that look nothing like real pentesting.
 
-## 🖥️ Platform Support
+## what it does
 
-### Windows
-- **Requirements**: Windows 10/11, Python 3.7+
-- **Installation**: Run `install_windows.bat`
-- **Quick Start**: Use `RUN_ME.bat`
+simulates real cybersecurity tools in a terminal that looks like something elliot would actually use. no fake matrix code or green text on black - just authentic looking penetration testing tools.
 
-### macOS
-- **Requirements**: macOS 10.14+, Python 3.7+
-- **Installation**: Run `./install_macos.sh`
-- **Quick Start**: Use `./run_macos.sh`
+got 80+ commands that simulate everything from nmap to metasploit. perfect for learning what these tools do without actually running them against real targets.
 
-## 🚀 Quick Start
+## platforms
 
-### Windows Users
-```batch
-# Clone and install
-git clone https://github.com/yourusername/fsociety-terminal.git
-cd fsociety-terminal
+**windows** - works on 10 and 11, needs python 3.7+  
+**macos** - tested on 10.14+, also needs python 3.7+
+
+## install & run
+
+### windows
+```
+git clone https://github.com/exovm/fsociety.git
+cd fsociety
 install_windows.bat
-
-# Launch terminal
 RUN_ME.bat
 ```
 
-### macOS Users  
-```bash
-# Clone and install
-git clone https://github.com/yourusername/fsociety-terminal.git
-cd fsociety-terminal
+### mac
+```
+git clone https://github.com/exovm/fsociety.git
+cd fsociety
 chmod +x install_macos.sh
 ./install_macos.sh
-
-# Launch terminal
 ./run_macos.sh
 ```
 
-## 🛠️ Features
+## commands
 
-### Core Functionality
-- **80+ Simulated Security Tools** - Realistic penetration testing commands
-- **Network Reconnaissance** - Port scanning, DNS enumeration, subdomain discovery
-- **Web Application Testing** - SQL injection testing, directory bruteforcing
-- **Wireless Security** - WiFi scanning and security assessment
-- **Social Engineering** - OSINT tools and phishing simulation
-- **Forensics & Steganography** - File analysis and hidden data extraction
+### network stuff
+- `nmap [target]` - port scanning
+- `masscan [target]` - faster port scanning  
+- `dig [domain]` - dns lookups
+- `whois [domain]` - domain info
+- `sublist3r [domain]` - subdomain enumeration
 
-### User Experience
-- **Authentic Terminal Interface** - Mr. Robot inspired design
-- **Matrix-Style Visual Effects** - Glitch animations and hacker aesthetics  
-- **Session Logging** - Track commands and maintain session history
-- **Fullscreen Mode** - Immersive terminal experience
-- **Safe Mode** - Compatibility option for older terminals
+### web hacking
+- `sqlmap [url]` - sql injection testing
+- `nikto [url]` - web vulnerability scanner
+- `dirb [url]` - directory bruteforcing
+- `gobuster [url]` - better directory bruteforcing
 
-### Customization
-- **Text Configuration System** - Customize all messages and responses
-- **Interactive Text Editor** - Easy-to-use configuration interface
-- **Profile Management** - Save and load different terminal personalities
+### wifi
+- `aircrack-ng` - crack wifi passwords
+- `airodump-ng` - capture wifi packets
+- `wash` - scan for wps
 
-## 📋 Command Categories
+### password attacks  
+- `john [hashfile]` - crack password hashes
+- `hashcat [hashfile]` - gpu password cracking
+- `hydra [target]` - bruteforce logins
 
-<details>
-<summary><strong>Network Reconnaissance</strong></summary>
+### exploitation
+- `msfconsole` - metasploit framework
+- `meterpreter` - post exploitation shell
+- `mimikatz` - windows credential extraction
 
-- `nmap`, `masscan`, `zmap`, `rustscan` - Port and network scanning
-- `hping3`, `traceroute`, `fping` - Network probing and routing  
-- `dig`, `whois`, `fierce`, `dnsrecon` - DNS enumeration
-- `sublist3r`, `amass` - Subdomain discovery
-</details>
+### forensics
+- `volatility [image]` - memory analysis
+- `binwalk [file]` - firmware analysis  
+- `strings [file]` - extract text from binaries
 
-<details>
-<summary><strong>Web Application Testing</strong></summary>
+### mr robot specials
+- `fsociety` - the manifesto
+- `elliot` - elliot's toolkit
+- `stage2` - phase 2 operations
 
-- `sqlmap`, `nikto`, `dirb`, `gobuster` - Web vulnerability scanning
-- `ffuf`, `wfuzz`, `whatweb`, `wafw00f` - Web fuzzing and fingerprinting
-- `burpsuite`, `owasp-zap` - Web application security testing
-</details>
+## customization
 
-<details>
-<summary><strong>Wireless Security</strong></summary>
+everything is configurable through text files:
 
-- `airodump-ng`, `aircrack-ng` - WiFi scanning and analysis
-- `aireplay-ng`, `wash` - WiFi attacks and WPS scanning
-- `reaver`, `bully` - WPS PIN attacks
-</details>
+- run `edit_text.bat` on windows or `python3 text_editor.py` on mac
+- edit `text_config.json` directly if you want
+- change loading messages, banners, command responses, whatever
 
-<details>
-<summary><strong>Password Attacks</strong></summary>
+## building executables
 
-- `john`, `hashcat` - Password cracking tools
-- `hydra`, `medusa` - Network login brute-forcers
-- `crunch`, `cewl`, `cupp` - Wordlist generators
-</details>
+**windows**: run `build_exe.bat`  
+**mac**: run `./build_macos.sh`
 
-<details>
-<summary><strong>Forensics & Analysis</strong></summary>
+creates standalone executables so you don't need python installed.
 
-- `volatility`, `autopsy` - Memory and disk forensics
-- `binwalk`, `steghide` - Firmware and steganography analysis
-- `exiftool`, `strings`, `hexdump` - File analysis and metadata
-</details>
+## compatibility mode
 
-## 🔧 Building Executables
-
-### Windows Executable
-```batch
-build_exe.bat
-# Creates: dist/We_See_You.exe
+if the visual effects mess up your terminal:
+```
+RUN_ME.bat --safe        # windows
+./run_macos.sh --safe    # mac
 ```
 
-### macOS Executable  
-```bash
-./build_macos.sh
-# Creates: dist/fsociety-terminal
-```
-
-## ⚙️ Configuration
-
-### Text Customization
-- **Windows**: Run `edit_text.bat` 
-- **macOS**: Run `python3 text_editor.py`
-- **Manual**: Edit `text_config.json` directly
-
-### Safe Mode
-For compatibility with older terminals:
-```bash
-# Windows
-RUN_ME.bat --safe
-
-# macOS  
-./run_macos.sh --safe
-```
-
-## 📁 Project Structure
+## project structure
 
 ```
-fsociety-terminal/
-├── We_See_You.py           # Main terminal application
-├── extended_commands.py    # Additional command implementations
-├── text_config.json        # Customizable text configuration
-├── text_editor.py          # Interactive text configuration editor
-├── install_windows.bat     # Windows installer
-├── build_exe.bat          # Windows executable builder
-├── RUN_ME.bat             # Windows launcher
-├── edit_text.bat          # Windows text editor launcher
-├── install_macos.sh       # macOS installer  
-├── build_macos.sh         # macOS executable builder
-├── run_macos.sh           # macOS launcher
-└── README.md              # This file
+fsociety/
+├── We_See_You.py           # main terminal
+├── extended_commands.py    # extra command implementations  
+├── text_config.json        # customizable text
+├── text_editor.py          # config editor
+├── install_windows.bat     # windows setup
+├── install_macos.sh        # mac setup  
+├── RUN_ME.bat             # windows launcher
+└── run_macos.sh           # mac launcher
 ```
 
-## 🎓 Educational Purpose
+## troubleshooting
 
-This tool is designed for:
-- **Cybersecurity Education** - Learn penetration testing concepts
-- **Training Environments** - Practice security assessment techniques
-- **Capture The Flag (CTF)** - Familiarize with common security tools
-- **Security Awareness** - Understand attack methodologies
+### windows problems
 
-## ⚠️ Legal Disclaimer
+**Q: "python is not recognized as an internal or external command"**  
+A: you don't have python installed or it's not in your PATH. download python from python.org and make sure to check "Add Python to PATH" during installation.
 
-This software is intended for **educational purposes only**. Users are responsible for complying with all applicable laws and regulations. The authors are not responsible for any misuse of this software.
+**Q: pip install fails with permission errors**  
+A: run command prompt as administrator or use `pip install --user opencv-python numpy`
 
-Only use this tool on:
-- Systems you own
-- Systems you have explicit permission to test
-- Authorized training environments
+**Q: the terminal looks weird/corrupted**  
+A: your terminal doesn't support the visual effects. run with `RUN_ME.bat --safe` instead.
 
-## 🤝 Contributing
+**Q: "cv2 module not found"**  
+A: opencv didn't install properly. try `pip uninstall opencv-python` then `pip install opencv-python`
 
-We welcome contributions! Please feel free to submit pull requests or open issues for:
-- Bug fixes
-- New command implementations  
-- Platform compatibility improvements
-- Documentation updates
+**Q: executable won't run/windows defender blocks it**  
+A: windows defender sometimes flags pyinstaller executables as suspicious. add an exception or run the python script directly.
 
-## 📊 System Requirements
+### mac problems
 
-### Minimum Requirements
-- **Python**: 3.7 or higher
-- **Memory**: 512 MB RAM
-- **Storage**: 100 MB available space
-- **Display**: Terminal with color support
+**Q: "permission denied" when running shell scripts**  
+A: the scripts aren't executable. run `chmod +x *.sh` to fix permissions.
 
-### Recommended Requirements
-- **Python**: 3.9 or higher
-- **Memory**: 1 GB RAM  
-- **Storage**: 500 MB available space
-- **Display**: Full-screen terminal capability
+**Q: "command not found: python3"**  
+A: install python3 from python.org or use homebrew: `brew install python3`
 
-## 🔄 Version History
+**Q: pip3 install fails**  
+A: try `pip3 install --user opencv-python numpy` or use `python3 -m pip install opencv-python numpy`
 
-- **v3.0** - Cross-platform support, text customization system
-- **v2.1** - Enhanced visual effects, session logging
-- **v2.0** - Major UI overhaul, 80+ commands  
-- **v1.5** - Stability improvements, profile system
-- **v1.0** - Initial release
+**Q: terminal effects don't work**  
+A: some mac terminals don't support all effects. use `./run_macos.sh --safe` for compatibility mode.
+
+**Q: "cannot execute binary file"**  
+A: you might be on an M1 mac trying to run an intel build. compile from source with `./build_macos.sh`
+
+### both platforms
+
+**Q: commands are slow/laggy**  
+A: that's intentional to simulate real tool processing time. if it's too slow, you can modify the delays in the code.
+
+**Q: can i add my own commands?**  
+A: yeah, check out the contributing guide. it's pretty straightforward to add new command simulations.
+
+**Q: is this actually hacking?**  
+A: no, it's all simulation. no real network traffic or actual penetration testing happens. it's for learning what these tools look like.
+
+## disclaimer
+
+this is for education only. don't be stupid with it. only use on systems you own or have permission to test. not my fault if you get in trouble.
+
+## contributing
+
+found a bug? want to add a command? cool, submit a pr. 
+
+just keep it realistic - no hollywood hacking bullshit. if you're adding a tool simulation, make it look like the real thing.
+
+## why this exists
+
+watched too many movies/shows with terrible "hacking" scenes. mr robot got it right - real hackers use terminals and command line tools, not flashy guis with spinning 3d models.
+
+built this to help people learn what real penetration testing looks like without having to set up vulnerable labs or risk breaking things.
 
 ---
 
-**"We are fsociety. We are legion. We do not forgive. We do not forget."**
+*"we are fsociety"*
 
-*This project is not affiliated with the Mr. Robot TV series or USA Network.*
+not affiliated with the show obviously, just inspired by it.

@@ -1,81 +1,77 @@
-# Changelog
+# changelog
 
-All notable changes to the fsociety Terminal project will be documented in this file.
+what's new in each version
 
 ## [3.0.0] - 2024-12-20
 
-### Added
-- **Cross-Platform Support**: Full macOS compatibility with native shell scripts
-- **Text Configuration System**: Comprehensive customization of all terminal text
-- **Interactive Text Editor**: Easy-to-use configuration interface (`text_editor.py`)
-- **Platform-Specific Installers**: Automated setup for Windows and macOS
-- **Enhanced Documentation**: Professional README with detailed usage instructions
-- **Safe Mode**: Compatibility option for older terminals (`--safe` flag)
+### new stuff
+- **mac support** - finally works on macos with proper shell scripts
+- **text customization** - change all the messages to whatever you want
+- **text editor** - interactive tool to edit configuration without messing with json
+- **better installers** - automated setup scripts for windows and mac
+- **safe mode** - compatibility mode for terminals that don't like fancy effects
 
-### New Files
-- `install_windows.bat` - Automated Windows installer
-- `install_macos.sh` - Automated macOS installer  
-- `build_macos.sh` - macOS executable builder
-- `run_macos.sh` - macOS launcher script
-- `text_config.json` - Customizable text configuration
-- `text_editor.py` - Interactive configuration editor
-- `edit_text.bat` - Windows text editor launcher
+### new files
+- `install_windows.bat` - sets up everything on windows
+- `install_macos.sh` - sets up everything on mac
+- `build_macos.sh` - creates mac executable
+- `run_macos.sh` - launches on mac
+- `text_config.json` - all the customizable text
+- `text_editor.py` - edit configuration interactively
+- `edit_text.bat` - windows shortcut for text editor
 
-### Improved
-- **Terminal Stability**: Better cleanup and error handling
-- **Visual Effects**: Enhanced matrix and glitch effects with fallbacks
-- **User Experience**: More authentic Mr. Robot theming
-- **Code Organization**: Modular text loading system
-- **Documentation**: Human-written, professional documentation
+### fixes
+- text rendering bugs during startup
+- terminal getting messed up after commands
+- unicode character issues
+- better error handling overall
 
-### Fixed
-- Text rendering bugs during loading sequence
-- Terminal state corruption after certain commands
-- Cross-platform compatibility issues
-- Unicode character display problems
+### improved
+- more authentic mr robot feel
+- better visual effects with fallbacks
+- cleaner code organization
+- way better documentation
 
 ## [2.1.0] - 2024-11-15
 
-### Added
-- Enhanced visual effects with matrix animations
-- Session logging and command history
-- Profile management system
-- Fullscreen terminal mode
-- IP address tracing like Mr. Robot show
+### new stuff
+- matrix-style animations during startup
+- session logging so you can see what you did
+- profile system for saving different setups
+- fullscreen mode for better immersion
+- ip tracing like in the show
 
-### Improved
-- Command response authenticity
-- Terminal startup sequence
-- Error handling and recovery
+### improvements
+- commands look more realistic
+- better startup sequence
+- doesn't crash as much
 
 ## [2.0.0] - 2024-10-01
 
-### Added
-- Major UI overhaul with Mr. Robot theming
+### big changes
+- completely redesigned interface
 - 80+ simulated cybersecurity commands
-- Realistic command output simulation
-- Advanced terminal effects and animations
+- realistic output that actually looks like real tools
+- way better terminal effects
 
-### Changed
-- Complete redesign of terminal interface
-- Improved command categorization
-- Enhanced hacker aesthetics
+this was basically a complete rewrite to make it look authentic instead of like a movie prop.
 
 ## [1.5.0] - 2024-08-15
 
-### Added
-- Profile and session management
-- Command history tracking
-- Improved stability and error handling
+### new stuff
+- profile and session management
+- command history tracking
+- more stable, crashes less
 
-### Fixed
-- Various bugs and stability issues
-- Memory leaks in visual effects
+### bug fixes
+- fixed memory leaks in visual effects
+- various stability improvements
 
 ## [1.0.0] - 2024-06-01
 
-### Added
-- Initial release of fsociety Terminal
-- Basic command simulation
-- Mr. Robot inspired interface
-- Core penetration testing tool simulation
+### initial release
+- basic fsociety terminal
+- mr robot inspired interface
+- simulation of common penetration testing tools
+
+this was the first version that actually worked. pretty basic but it was a start.

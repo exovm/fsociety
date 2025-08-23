@@ -1,180 +1,158 @@
-# Contributing to fsociety Terminal
+# Contributing
 
-Thank you for your interest in contributing to fsociety Terminal! This document provides guidelines and information for contributors.
+want to help make this better? cool. here's how to do it without breaking things.
 
-## Getting Started
+## setup
 
-1. **Fork the Repository**
+1. **fork the repo**
    ```bash
-   git clone https://github.com/yourusername/fsociety-terminal.git
-   cd fsociety-terminal
+   git clone https://github.com/yourusername/fsociety.git
+   cd fsociety
    ```
 
-2. **Set Up Development Environment**
+2. **get it running**
    
-   **Windows:**
-   ```batch
-   install_windows.bat
-   ```
-   
-   **macOS:**
-   ```bash
-   ./install_macos.sh
-   ```
+   windows: run `install_windows.bat`  
+   mac: run `./install_macos.sh`
 
-3. **Test Your Setup**
+3. **test it works**
    ```bash
    python We_See_You.py --safe
    ```
 
-## Development Guidelines
+## adding new commands
 
-### Code Style
-- Follow PEP 8 Python style guidelines
-- Use meaningful variable and function names
-- Add comments for complex logic
-- Maintain compatibility with Python 3.7+
+### implementation
+- add your command function to `We_See_You.py` or `extended_commands.py`
+- make the output look realistic - check what the real tool actually outputs
+- add some random delays to simulate processing time
 
-### Adding New Commands
-
-1. **Command Implementation**
-   - Add new command functions to `We_See_You.py` or `extended_commands.py`
-   - Follow the existing pattern for realistic output simulation
-   - Include appropriate delays and formatting
-
-2. **Command Registration**
-   ```python
-   self.tools = {
-       'newcommand': self.new_command_function,
-       # ... existing commands
-   }
-   ```
-
-3. **Help Documentation**
-   - Update the help system in `display_help()` method
-   - Add command to appropriate category
-   - Include brief description of functionality
-
-### Text Customization
-
-- All user-facing text should use the `text_config.json` system
-- Use the `self.text_config.get()` method for retrieving text
-- Provide fallback defaults for all text lookups
-
-### Cross-Platform Compatibility
-
-- Test on both Windows and macOS when possible
-- Use `os.name` checks for platform-specific code
-- Ensure shell scripts have proper permissions (`chmod +x`)
-
-### Visual Effects
-
-- All effects should respect the `safe_mode` setting
-- Provide graceful fallbacks for unsupported terminals
-- Use try/except blocks around effect code
-
-## Testing
-
-### Manual Testing Checklist
-
-- [ ] Terminal starts without errors
-- [ ] All major commands execute successfully
-- [ ] Visual effects work (or fall back gracefully)
-- [ ] Text customization system functions
-- [ ] Safe mode disables effects properly
-- [ ] Cross-platform scripts execute correctly
-
-### Testing New Commands
-
-1. Verify realistic output formatting
-2. Check error handling for invalid inputs
-3. Ensure proper terminal cleanup after execution
-4. Test with various argument combinations
-
-## Submitting Changes
-
-### Pull Request Process
-
-1. **Create Feature Branch**
-   ```bash
-   git checkout -b feature/new-command
-   ```
-
-2. **Make Your Changes**
-   - Implement your feature or fix
-   - Test thoroughly on your platform
-   - Update documentation if needed
-
-3. **Commit Changes**
-   ```bash
-   git commit -m "Add new command: example-tool"
-   ```
-
-4. **Push and Create PR**
-   ```bash
-   git push origin feature/new-command
-   ```
-
-### PR Guidelines
-
-- **Clear Title**: Describe what your PR does
-- **Detailed Description**: Explain the changes and why they're needed
-- **Testing Notes**: Include how you tested the changes
-- **Screenshots**: If UI changes, include before/after screenshots
-
-### Commit Messages
-
-Use clear, descriptive commit messages:
-- `Add new command: nessus vulnerability scanner`
-- `Fix text rendering bug in matrix effect`
-- `Update macOS installer for M1 compatibility`
-- `Improve error handling in network commands`
-
-## Command Categories
-
-When adding new commands, place them in the appropriate category:
-
-- **Network Reconnaissance**: `nmap`, `masscan`, `dig`, etc.
-- **Web Application Testing**: `nikto`, `sqlmap`, `dirb`, etc.
-- **Wireless Security**: `aircrack-ng`, `airodump-ng`, etc.
-- **Password Attacks**: `john`, `hashcat`, `hydra`, etc.
-- **Exploitation**: `metasploit`, `msfvenom`, etc.
-- **Forensics**: `volatility`, `binwalk`, `strings`, etc.
-- **Social Engineering**: `setoolkit`, `gophish`, etc.
-- **Crypto/Utilities**: `openssl`, `base64`, `md5sum`, etc.
-
-## Documentation
-
-### README Updates
-- Keep installation instructions current
-- Update command lists when adding new tools
-- Maintain version history section
-
-### Code Comments
+### register it
 ```python
-def new_command(self, target=None):
-    """
-    Simulate [tool name] - brief description
-    
-    Args:
-        target (str): Target IP, domain, or file
-        
-    Simulates realistic output from the actual tool
-    """
-    # Implementation here
+self.tools = {
+    'your_new_command': self.your_new_function,
+    # ... other commands
+}
 ```
 
-## Community
+### update help
+- add it to the help system in `display_help()`
+- put it in the right category
+- keep descriptions short and to the point
 
-- Be respectful and constructive in discussions
-- Help other contributors when possible
-- Follow the project's educational mission
-- Maintain the Mr. Robot aesthetic and theme
+## style guidelines
 
-## Questions?
+- don't overthink it, just make it work
+- use normal python conventions
+- comment confusing parts
+- test on python 3.7+ if possible
 
-- Open an issue for bugs or feature requests
-- Check existing issues before creating new ones
-- Include relevant system information in bug reports
+## what makes a good command
 
-Thank you for contributing to fsociety Terminal! Together we're building an authentic cybersecurity education tool.
+1. **realistic output** - looks like the actual tool
+2. **proper error handling** - doesn't crash on bad input  
+3. **respects safe mode** - no fancy effects if `--safe` is used
+4. **cleans up after itself** - doesn't leave terminal in weird state
+
+## testing
+
+before submitting:
+- [ ] command runs without errors
+- [ ] output looks realistic
+- [ ] works in safe mode
+- [ ] doesn't break other commands
+- [ ] help text is updated
+
+## submitting changes
+
+1. **make a branch**
+   ```bash
+   git checkout -b add-your-command
+   ```
+
+2. **do your thing**
+   - implement the feature
+   - test it works
+   - update docs if needed
+
+3. **commit**
+   ```bash
+   git commit -m "add command: your-tool-name"
+   ```
+
+4. **submit pr**
+   - clear title describing what you did
+   - mention if you tested it
+   - screenshots if it changes the ui
+
+## commit messages
+
+keep them simple:
+- "add nessus command"
+- "fix bug in network scanner"  
+- "update mac installer"
+
+## command categories
+
+put new commands in the right section:
+- **network stuff**: nmap, dig, whois, etc
+- **web hacking**: nikto, sqlmap, dirb, etc
+- **wifi**: aircrack, airodump, etc
+- **password attacks**: john, hashcat, hydra, etc
+- **exploitation**: metasploit, meterpreter, etc
+- **forensics**: volatility, strings, etc
+
+## text customization
+
+all user-facing text should use the config system:
+```python
+msg = self.text_config.get('category', 'key', 'fallback')
+```
+
+## cross-platform stuff
+
+- test on both windows and mac if you can
+- use `os.name` for platform-specific code
+- make sure shell scripts are executable (`chmod +x`)
+
+## visual effects
+
+- respect the `safe_mode` setting
+- wrap effects in try/except blocks
+- provide fallbacks for unsupported terminals
+
+## documentation
+
+### for new commands
+```python
+def new_command(self, target=None):
+    """Simulate tool-name - what it does"""
+    # code here
+```
+
+### updating readme
+- keep install instructions current
+- add new commands to command list
+- don't make it too formal
+
+## questions?
+
+- open an issue for bugs
+- check existing issues first
+- include system info for bug reports
+
+## don't do this
+
+- overly complex code
+- hollywood-style fake output
+- breaking existing functionality
+- making it look less authentic
+
+## do this
+
+- make output look like real tools
+- keep the mr robot vibe
+- help people learn actual cybersecurity
+- test your changes
+
+thanks for contributing. let's make this the most realistic hacker terminal simulator out there.
