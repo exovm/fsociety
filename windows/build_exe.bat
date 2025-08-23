@@ -12,4 +12,4 @@ cd windows
 
 echo.
 echo Build complete! Check the '../dist' folder for We_See_You.exe
-pause
+pause 
