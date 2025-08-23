@@ -17,4 +17,4 @@ if exist "..\dist\We_See_You.exe" (
     cd windows
 )
 
-pause
+pause 
