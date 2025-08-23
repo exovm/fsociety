@@ -1,0 +1,96 @@
+{
+  "loading_messages": [
+    "Initializing fsociety protocols...",
+    "Establishing encrypted channels...",
+    "Loading hack modules...",
+    "Preparing digital arsenal...",
+    "Connecting to the collective...",
+    "System breach in progress...",
+    "Activating stealth mode...",
+    "Decrypting classified data...",
+    "Loading exploitation tools...",
+    "Welcome to the revolution..."
+  ],
+  
+  "banners": {
+    "main_banner": [
+      "███████╗███████╗ ██████╗  ██████╗██╗███████╗████████╗██╗   ██╗",
+      "██╔════╝██╔════╝██╔═══██╗██╔════╝██║██╔════╝╚══██╔══╝╚██╗ ██╔╝",
+      "█████╗  ███████╗██║   ██║██║     ██║█████╗     ██║    ╚████╔╝ ",
+      "██╔══╝  ╚════██║██║   ██║██║     ██║██╔══╝     ██║     ╚██╔╝  ",
+      "██║     ███████║╚██████╔╝╚██████╗██║███████╗   ██║      ██║   ",
+      "╚═╝     ╚══════╝ ╚═════╝  ╚═════╝╚═╝╚══════╝   ╚═╝      ╚═╝   "
+    ],
+    "terminal_title": "WE SEE YOU - FSOCIETY TERMINAL v3.0",
+    "subtitle": "HACK THE WORLD - SAVE THE WORLD"
+  },
+  
+  "help_text": {
+    "main_help": "FSOCIETY COMMAND REFERENCE",
+    "categories": {
+      "Network": "Network reconnaissance and analysis tools",
+      "System": "System information and monitoring utilities", 
+      "Security": "Security testing and exploitation tools",
+      "Forensics": "Digital forensics and investigation tools",
+      "Social": "Social engineering and OSINT tools",
+      "Steganography": "Data hiding and extraction tools",
+      "Crypto": "Cryptography and encryption utilities",
+      "Web": "Web application testing tools",
+      "Wireless": "Wireless network analysis tools",
+      "Malware": "Malware analysis and reverse engineering",
+      "Misc": "Miscellaneous hacking utilities"
+    }
+  },
+  
+  "startup_messages": {
+    "welcome": "WELCOME TO THE UNDERGROUND",
+    "manifesto_intro": "WE ARE FSOCIETY. WE ARE LEGION.",
+    "warning": "UNAUTHORIZED ACCESS DETECTED - TRACING CONNECTION...",
+    "connection_established": "SECURE CONNECTION ESTABLISHED",
+    "system_ready": "ALL SYSTEMS OPERATIONAL"
+  },
+  
+  "command_responses": {
+    "access_denied": "ACCESS DENIED - INSUFFICIENT PRIVILEGES",
+    "command_not_found": "COMMAND NOT RECOGNIZED - UNAUTHORIZED ACCESS ATTEMPT LOGGED",
+    "help_hint": "TYPE 'help' TO ACCESS FSOCIETY COMMAND DATABASE",
+    "operation_complete": "OPERATION COMPLETED SUCCESSFULLY",
+    "connection_failed": "CONNECTION FAILED - TARGET UNREACHABLE",
+    "data_corrupted": "DATA STREAM CORRUPTED - RETRYING...",
+    "breach_detected": "SECURITY BREACH DETECTED - INITIATING COUNTERMEASURES"
+  },
+  
+  "status_messages": {
+    "scanning": "SCANNING TARGET SYSTEMS...",
+    "analyzing": "ANALYZING NETWORK TRAFFIC...",
+    "extracting": "EXTRACTING SENSITIVE DATA...",
+    "cracking": "CRACKING ENCRYPTION ALGORITHMS...",
+    "infiltrating": "INFILTRATING SECURE NETWORKS...",
+    "monitoring": "MONITORING COMMUNICATION CHANNELS..."
+  },
+  
+  "exit_messages": [
+    "DISCONNECTING FROM THE COLLECTIVE...",
+    "ERASING DIGITAL FOOTPRINTS...",
+    "INITIATING SELF-DESTRUCT SEQUENCE...",
+    "GOING DARK - STAY VIGILANT",
+    "THE REVOLUTION CONTINUES...",
+    "WE ARE EVERYWHERE. WE ARE NOWHERE.",
+    "REMEMBER... WE ARE FSOCIETY"
+  ],
+  
+  "error_messages": {
+    "general_error": "SYSTEM ERROR - UNEXPECTED ANOMALY DETECTED",
+    "network_error": "NETWORK DISRUPTION - SIGNAL COMPROMISED", 
+    "file_error": "FILE SYSTEM CORRUPTION - DATA INTEGRITY COMPROMISED",
+    "permission_error": "SECURITY PROTOCOLS ACTIVATED - ACCESS RESTRICTED"
+  },
+  
+  "progress_messages": {
+    "initializing": "INITIALIZING",
+    "loading": "LOADING",
+    "processing": "PROCESSING", 
+    "analyzing": "ANALYZING",
+    "complete": "COMPLETE"
+  }
+} 
