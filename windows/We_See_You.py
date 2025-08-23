@@ -398,8 +398,8 @@ class RealisticPenTestTerminal:
         """Enable fullscreen mode on Windows"""
         if os.name == 'nt':
             try:
-                # Set console properties for better display
-                os.system("mode con: cols=120 lines=30")
+                # Set console properties for fullscreen display
+                os.system("mode con: cols=150 lines=40")  # Larger console
                 os.system("chcp 65001 >nul 2>&1")  # Set UTF-8 encoding
                 
                 # Get console window handle
@@ -410,11 +410,30 @@ class RealisticPenTestTerminal:
                 hwnd = kernel32.GetConsoleWindow()
                 
                 if hwnd:
-                    # Maximize window
+                    # First maximize the window
                     user32.ShowWindow(hwnd, 3)  # SW_MAXIMIZE
+                    
+                    # Try to set true fullscreen (remove title bar)
+                    # Get current window style
+                    style = user32.GetWindowLongW(hwnd, -16)  # GWL_STYLE
+                    
+                    # Remove title bar, borders, etc for true fullscreen
+                    new_style = style & ~0x00C00000 & ~0x00800000 & ~0x00400000  # Remove WS_CAPTION, WS_BORDER, WS_DLGFRAME
+                    user32.SetWindowLongW(hwnd, -16, new_style)
+                    
+                    # Set window position to cover entire screen
+                    screen_width = user32.GetSystemMetrics(0)  # SM_CXSCREEN
+                    screen_height = user32.GetSystemMetrics(1)  # SM_CYSCREEN
+                    user32.SetWindowPos(hwnd, 0, 0, 0, screen_width, screen_height, 0x0040)  # SWP_FRAMECHANGED
+                    
+                    # Set console colors for better fullscreen experience
+                    os.system("color 0A")  # Black background, bright green text
+                    
+                    print(f"{Colors.GREEN}[SYSTEM] Fullscreen mode activated ({screen_width}x{screen_height}){Colors.END}")
                     return True
-            except:
-                # Safe fallback
+            except Exception as e:
+                print(f"{Colors.YELLOW}[WARNING] Fullscreen failed, using maximized window: {str(e)}{Colors.END}")
+                # Safe fallback - just maximize
                 try:
                     os.system("mode con: cols=100 lines=25")
                 except:
@@ -437,9 +456,9 @@ class RealisticPenTestTerminal:
             else:
                 os.system('clear')
                 
-            matrix_chars = "01"  # Simplified to basic binary
-            width = 60  # Reduced width for compatibility
-            height = 15  # Reduced height
+            matrix_chars = "01FSOCIETYELLIOT"  # Mr Robot themed characters
+            width = 140  # Fullscreen width
+            height = 35  # Fullscreen height
             
             print("\033[32m", end="", flush=True)  # Green color
             for frame in range(duration * 3):  # Reduced iterations
@@ -1371,28 +1390,85 @@ Join the revolution.
             # Load and display image
             img = cv2.imread(temp_path)
             if img is not None:
-                # Resize image to fit terminal better
+                # Get screen dimensions
+                try:
+                    import tkinter as tk
+                    root = tk.Tk()
+                    screen_width = root.winfo_screenwidth()
+                    screen_height = root.winfo_screenheight()
+                    root.destroy()
+                except:
+                    screen_width, screen_height = 1920, 1080  # Default fallback
+                
+                # Resize image to fit screen better (but not too large)
                 height, width = img.shape[:2]
-                max_width = 800
-                if width > max_width:
-                    scale = max_width / width
-                    new_width = int(width * scale)
-                    new_height = int(height * scale)
-                    img = cv2.resize(img, (new_width, new_height))
+                max_width = int(screen_width * 0.6)  # 60% of screen width
+                max_height = int(screen_height * 0.7)  # 70% of screen height
                 
-                # Add text overlay
-                cv2.putText(img, 'ELLIOT ALDERSON', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3)
-                cv2.putText(img, 'fsociety terminal loading...', (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
+                # Calculate scale to fit within max dimensions
+                scale_w = max_width / width
+                scale_h = max_height / height
+                scale = min(scale_w, scale_h)
                 
-                # Display image
-                cv2.imshow('fsociety - Elliot Alderson', img)
+                new_width = int(width * scale)
+                new_height = int(height * scale)
+                img = cv2.resize(img, (new_width, new_height))
                 
-                print(f"{Colors.GREEN}[SUCCESS] Elliot's image loaded - Press any key in image window to continue{Colors.END}")
+                # Create a black background for centering
+                bg_width = screen_width
+                bg_height = screen_height
+                background = np.zeros((bg_height, bg_width, 3), dtype=np.uint8)
+                
+                # Calculate position to center the image
+                x_offset = (bg_width - new_width) // 2
+                y_offset = (bg_height - new_height) // 2
+                
+                # Place image on background
+                background[y_offset:y_offset+new_height, x_offset:x_offset+new_width] = img
+                
+                # Add stylized text overlays
+                font = cv2.FONT_HERSHEY_COMPLEX
+                
+                # Main title
+                title_text = 'ELLIOT ALDERSON'
+                title_size = cv2.getTextSize(title_text, font, 3, 4)[0]
+                title_x = (bg_width - title_size[0]) // 2
+                title_y = y_offset - 50
+                cv2.putText(background, title_text, (title_x, title_y), font, 3, (0, 255, 0), 4)
+                
+                # Subtitle
+                subtitle_text = 'fsociety terminal initializing...'
+                subtitle_size = cv2.getTextSize(subtitle_text, font, 1.5, 2)[0]
+                subtitle_x = (bg_width - subtitle_size[0]) // 2
+                subtitle_y = y_offset + new_height + 80
+                cv2.putText(background, subtitle_text, (subtitle_x, subtitle_y), font, 1.5, (0, 255, 255), 2)
+                
+                # Additional Mr. Robot quote
+                quote_text = '"Hello, friend. Welcome to the revolution."'
+                quote_size = cv2.getTextSize(quote_text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0]
+                quote_x = (bg_width - quote_size[0]) // 2
+                quote_y = subtitle_y + 60
+                cv2.putText(background, quote_text, (quote_x, quote_y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2)
+                
+                # Create fullscreen window
+                cv2.namedWindow('fsociety - ELLIOT ALDERSON', cv2.WND_PROP_FULLSCREEN)
+                cv2.setWindowProperty('fsociety - ELLIOT ALDERSON', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+                
+                # Display the centered image
+                cv2.imshow('fsociety - ELLIOT ALDERSON', background)
+                
+                print(f"{Colors.GREEN}[SUCCESS] Elliot's image loaded - Fullscreen display active{Colors.END}")
                 print(f"{Colors.YELLOW}[INFO] Image source: {image_url}{Colors.END}")
+                print(f"{Colors.CYAN}[INFO] Press ESC or wait 5 seconds to continue...{Colors.END}")
                 
-                # Wait for key press and close
-                cv2.waitKey(3000)  # Auto-close after 3 seconds or key press
+                # Wait for key press or timeout
+                key = cv2.waitKey(5000)  # 5 seconds timeout
+                if key == 27:  # ESC key
+                    print(f"{Colors.GREEN}[USER] Manual skip detected{Colors.END}")
                 cv2.destroyAllWindows()
+                
+                # Brief pause before continuing
+                time.sleep(1)
                 
                 # Clean up temp file
                 import os
