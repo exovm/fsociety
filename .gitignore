@@ -43,6 +43,7 @@ Thumbs.db
 desktop.ini
 
 # Claude/AI related files (SENSITIVE - DO NOT COMMIT)
+.claude/
 *claude*
 *api*
 *key*
@@ -51,6 +52,7 @@ desktop.ini
 .env.*
 config.json
 secrets.json
+*.anthropic*
 
 # Personal/sensitive data
 *.log
