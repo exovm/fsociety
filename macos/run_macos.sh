@@ -20,4 +20,4 @@ fi
 
 # Launch the terminal
 echo "Launching fsociety terminal..."
-python3 We_See_You.py "$@"
+python3 We_See_You.py "$@" 
