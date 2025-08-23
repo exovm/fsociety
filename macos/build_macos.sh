@@ -25,4 +25,4 @@ chmod +x dist/fsociety-terminal
 
 echo ""
 echo "Build complete! Check the 'dist' folder for fsociety-terminal"
-echo "You can run it with: ./dist/fsociety-terminal"
+echo "You can run it with: ./dist/fsociety-terminal" 
