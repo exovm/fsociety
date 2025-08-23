@@ -301,6 +301,55 @@ class RealisticPenTestTerminal:
             'tor': self.tor_manager,
             'vpn': self.vpn_manager,
             'anonymous': self.anonymity_check,
+            
+            # System Monitoring & Analysis
+            'sysmon': self.system_monitor,
+            'procmon': self.process_monitor,
+            'netmon': self.network_monitor,
+            'memmon': self.memory_monitor,
+            'iotop': self.io_monitor,
+            'sensors': self.hardware_sensors,
+            
+            # Blockchain & Cryptocurrency
+            'bitcoin': self.bitcoin_analyzer,
+            'ethereum': self.ethereum_scanner,
+            'blockchain': self.blockchain_explorer,
+            'wallet': self.wallet_analyzer,
+            'monero': self.monero_tracer,
+            'crypto': self.crypto_toolkit,
+            
+            # Advanced Network Tools
+            'shodan': self.shodan_search,
+            'censys': self.censys_scan,
+            'bgp': self.bgp_analyzer,
+            'asn': self.asn_lookup,
+            'geoip': self.geoip_lookup,
+            'dnstwist': self.dnstwist_scan,
+            'subdomain': self.subdomain_takeover,
+            
+            # Social Engineering Enhanced
+            'osint': self.osint_framework,
+            'phonebook': self.phonebook_search,
+            'breach': self.breach_checker,
+            'leaks': self.data_leaks,
+            'dorking': self.google_dorking,
+            'facial': self.facial_recognition,
+            
+            # File System & Forensics
+            'filesystem': self.filesystem_analyzer,
+            'timeline': self.timeline_generator,
+            'recover': self.file_recovery,
+            'wipe': self.secure_wipe,
+            'hash': self.hash_analyzer,
+            'metadata': self.metadata_extractor,
+            
+            # Session Management
+            'sessions': self.session_manager,
+            'history': self.command_history,
+            'export': self.export_session,
+            'import': self.import_session,
+            'backup': self.backup_session,
+            
             'exit': self.exit_terminal,
             'quit': self.quit_terminal,
             'q': self.quit_terminal
