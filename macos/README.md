@@ -1,33 +1,49 @@
-# fsociety terminal
+# fsociety terminal - macOS
 
-basically a mr robot inspired hacker terminal that actually looks legit instead of that hollywood garbage.
+basically a mr robot inspired hacker terminal that actually looks legit instead of that hollywood garbage. built this because i got tired of seeing "hacking" scenes that look nothing like real pentesting.
 
-## choose your platform
+## what it does
 
-this repository contains separate, complete versions for each operating system:
+simulates real cybersecurity tools in a terminal that looks like something elliot would actually use. no fake matrix code or green text on black - just authentic looking penetration testing tools.
 
-### 🪟 windows users
-go to the [`windows/`](windows/) folder - everything you need is in there
+got 100+ commands that simulate everything from nmap to metasploit. perfect for learning what these tools do without actually running them against real targets.
 
-### 🍎 macos users  
-go to the [`macos/`](macos/) folder - everything you need is in there
+## macos setup
 
-## quick start
-
-### windows
+### option 1: easy way (recommended)
 ```
-cd windows/
-install_windows.bat
-RUN_ME.bat
-```
-
-### macos
-```
-cd macos/
 chmod +x *.sh
 ./install_macos.sh
 ./run_macos.sh
 ```
+
+### option 2: manual way
+```
+pip3 install opencv-python numpy
+python3 We_See_You.py
+```
+
+### option 3: build executable
+```
+./build_macos.sh
+```
+
+## new advanced features in v5.0+
+- neural-scanner - AI-powered vulnerability detection
+- quantum-decrypt - quantum computing decryption simulator
+- zero-day - advanced 0-day exploit framework
+- blockchain-penetrator - DeFi protocol vulnerability scanner
+- deepfake - deepfake video/audio generation studio
+- satellite-hijack - satellite communication interception
+- biometric-spoof - fingerprint/facial recognition bypass
+- cyber-warfare - nation-state attack simulation suite
+- 5g-exploit - 5G network infrastructure attacks
+- ai-phishing - AI-generated phishing campaigns
+- supply-chain - software supply chain attacks
+- firmware-rootkit - hardware-level persistence
+- deepweb-crawler - dark web intelligence gathering
+- neural-net - neural network vulnerability scanner
+- quantum-hack - quantum hacking suite
 
 ## commands
 
@@ -73,64 +89,23 @@ chmod +x *.sh
 
 everything is configurable through text files:
 
-- run `cd windows && edit_text.bat` on windows or `python3 text_editor.py` on mac
+- run `python3 text_editor.py` to customize messages and banners
 - edit `text_config.json` directly if you want
 - change loading messages, banners, command responses, whatever
-
-## building executables
-
-**windows**: `cd windows && build_exe.bat`  
-**mac**: `cd macos && ./build_macos.sh`
-
-creates standalone executables so you don't need python installed.
 
 ## compatibility mode
 
 if the visual effects mess up your terminal:
 ```
-cd windows && RUN_ME.bat --safe        # windows
-cd macos && ./run_macos.sh --safe      # mac
+./run_macos.sh --safe
 ```
 
-## project structure
+## requirements
 
-```
-fsociety/
-├── We_See_You.py           # main terminal
-├── extended_commands.py    # extra command implementations  
-├── text_config.json        # customizable text
-├── text_editor.py          # config editor
-├── windows/                # windows specific files
-│   ├── install_windows.bat # windows installer
-│   ├── build_exe.bat       # build windows executable  
-│   ├── RUN_ME.bat         # windows launcher
-│   └── edit_text.bat      # windows text editor launcher
-└── macos/                 # mac specific files
-    ├── install_macos.sh   # mac installer
-    ├── build_macos.sh     # build mac executable
-    └── run_macos.sh       # mac launcher
-```
+- macos 10.14+
+- python 3.7+ (installs automatically with install_macos.sh)
 
 ## troubleshooting
-
-### windows problems
-
-**Q: "python is not recognized as an internal or external command"**  
-A: you don't have python installed or it's not in your PATH. download python from python.org and make sure to check "Add Python to PATH" during installation.
-
-**Q: pip install fails with permission errors**  
-A: run command prompt as administrator or use `pip install --user opencv-python numpy`
-
-**Q: the terminal looks weird/corrupted**  
-A: your terminal doesn't support the visual effects. run with `cd windows && RUN_ME.bat --safe` instead.
-
-**Q: "cv2 module not found"**  
-A: opencv didn't install properly. try `pip uninstall opencv-python` then `pip install opencv-python`
-
-**Q: executable won't run/windows defender blocks it**  
-A: windows defender sometimes flags pyinstaller executables as suspicious. add an exception or run the python script directly.
-
-### mac problems
 
 **Q: "permission denied" when running shell scripts**  
 A: the scripts aren't executable. run `chmod +x *.sh` to fix permissions.
@@ -142,12 +117,10 @@ A: install python3 from python.org or use homebrew: `brew install python3`
 A: try `pip3 install --user opencv-python numpy` or use `python3 -m pip install opencv-python numpy`
 
 **Q: terminal effects don't work**  
-A: some mac terminals don't support all effects. use `cd macos && ./run_macos.sh --safe` for compatibility mode.
+A: some mac terminals don't support all effects. use `./run_macos.sh --safe` for compatibility mode.
 
 **Q: "cannot execute binary file"**  
-A: you might be on an M1 mac trying to run an intel build. compile from source with `cd macos && ./build_macos.sh`
-
-### both platforms
+A: you might be on an M1 mac trying to run an intel build. compile from source with `./build_macos.sh`
 
 **Q: commands are slow/laggy**  
 A: that's intentional to simulate real tool processing time. if it's too slow, you can modify the delays in the code.
