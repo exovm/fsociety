@@ -1,0 +1,129 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller opencv-python numpy
+    
+    - name: Build Windows executable
+      run: |
+        pyinstaller --onefile --name "fsociety-terminal-windows" --add-data "text_config.json;." We_See_You.py
+    
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: fsociety-terminal-windows
+        path: dist/fsociety-terminal-windows.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller opencv-python numpy
+    
+    - name: Build macOS executable
+      run: |
+        pyinstaller --onefile --name "fsociety-terminal-macos" --add-data "text_config.json:." We_See_You.py
+        chmod +x dist/fsociety-terminal-macos
+    
+    - name: Upload macOS artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: fsociety-terminal-macos
+        path: dist/fsociety-terminal-macos
+
+  release:
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download Windows artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: fsociety-terminal-windows
+        path: ./artifacts/
+    
+    - name: Download macOS artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: fsociety-terminal-macos
+        path: ./artifacts/
+    
+    - name: Create Release
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        release_name: fsociety Terminal ${{ github.ref_name }}
+        body: |
+          ## What's New in ${{ github.ref_name }}
+          
+          Cross-platform cybersecurity education terminal inspired by Mr. Robot.
+          
+          ### Downloads
+          - **Windows**: fsociety-terminal-windows.exe
+          - **macOS**: fsociety-terminal-macos
+          
+          ### Installation
+          ```bash
+          # Windows
+          download fsociety-terminal-windows.exe
+          
+          # macOS  
+          download fsociety-terminal-macos
+          chmod +x fsociety-terminal-macos
+          ```
+          
+          See the [README](https://github.com/exovm/fsociety/blob/main/README.md) for detailed installation and usage instructions.
+        draft: false
+        prerelease: false
+    
+    - name: Upload Windows Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./artifacts/fsociety-terminal-windows.exe
+        asset_name: fsociety-terminal-windows.exe
+        asset_content_type: application/octet-stream
+    
+    - name: Upload macOS Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./artifacts/fsociety-terminal-macos
+        asset_name: fsociety-terminal-macos
+        asset_content_type: application/octet-stream
