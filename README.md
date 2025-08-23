@@ -1,159 +1,207 @@
-# WE SEE YOU
+# fsociety Terminal
 
-```
-██     ██ ███████     ███████ ███████ ███████     ██    ██  ██████  ██    ██ 
-██     ██ ██          ██      ██      ██           ██  ██  ██    ██ ██    ██ 
-██  █  ██ █████       ███████ █████   █████         ████   ██    ██ ██    ██ 
-██ ███ ██ ██               ██ ██      ██             ██    ██    ██ ██    ██ 
- ███ ███  ███████     ███████ ███████ ███████        ██     ██████   ██████  
-```
+A cybersecurity education terminal inspired by the Mr. Robot TV series. This project provides an immersive penetration testing simulation environment for learning cybersecurity concepts and tools.
 
-**we are watching. we are everywhere.**
+## 🖥️ Platform Support
 
-this is a hacker terminal that actually looks real instead of that hollywood bullshit. based on mr robot because that show knew what real hacking looked like.
+### Windows
+- **Requirements**: Windows 10/11, Python 3.7+
+- **Installation**: Run `install_windows.bat`
+- **Quick Start**: Use `RUN_ME.bat`
 
-## how to run this
+### macOS
+- **Requirements**: macOS 10.14+, Python 3.7+
+- **Installation**: Run `./install_macos.sh`
+- **Quick Start**: Use `./run_macos.sh`
 
-just type:
-```
-python We_See_You.py
-```
+## 🚀 Quick Start
 
-you need python 3 or whatever. most people have it already.
+### Windows Users
+```batch
+# Clone and install
+git clone https://github.com/yourusername/fsociety-terminal.git
+cd fsociety-terminal
+install_windows.bat
 
-## commands that actually work
-
-### recon stuff
-
-these are for figuring out what's on a network before you do anything else
-
-- `nmap [target]` - port scanning, the classic
-- `masscan [target]` - like nmap but way faster
-- `zmap [target]` - scans the whole internet if you want
-- `rustscan [target]` - new hotness, written in rust
-- `fping [network]` - ping a bunch of hosts at once
-- `hping3 [target]` - custom packets and stuff
-- `whois [domain]` - who owns this domain
-- `dig [domain]` - dns queries
-- `fierce [domain]` - finds subdomains
-- `sublist3r [domain]` - more subdomain hunting
-
-### web app hacking
-
-for when you want to mess with websites
-
-- `nikto [url]` - finds vulnerabilities in websites
-- `dirb [url]` - brute force directories 
-- `gobuster [url]` - like dirb but better
-- `ffuf [url]` - fuzzing tool, finds hidden stuff
-- `sqlmap [url]` - sql injection, gets you into databases
-- `whatweb [url]` - tells you what tech a site uses
-- `wafw00f [url]` - detects web firewalls
-
-### exploitation
-
-this is where it gets fun
-
-- `msfconsole [target]` - metasploit, the big one
-- `meterpreter [session]` - post-exploitation shell
-- `mimikatz [module]` - steals windows passwords
-- `bloodhound [domain]` - maps active directory
-
-### password cracking
-
-because people use shit passwords
-
-- `hydra [target] [service]` - brute force login attempts
-- `john [hashfile]` - john the ripper, classic
-- `hashcat [hashfile]` - gpu accelerated cracking
-- `medusa [target]` - another brute forcer
-- `cewl [url]` - makes wordlists from websites
-
-### wifi hacking
-
-for messing with wireless networks
-
-- `aircrack [interface]` - crack wifi passwords
-- `airodump [interface]` - capture wifi packets
-- `kismet [interface]` - find all wireless networks
-- `wifite [interface]` - automated wifi cracking
-
-### network monitoring
-
-see what everyone is doing
-
-- `wireshark [interface]` - packet capture and analysis
-- `tcpdump [interface]` - command line packet capture
-- `ettercap [target]` - man in the middle attacks
-- `bettercap [interface]` - network reconnaissance tool
-
-### forensics and analysis
-
-for when you need to dig through files and memory
-
-- `volatility [image]` - analyze memory dumps
-- `binwalk [file]` - extract files from firmware
-- `strings [file]` - find text in binary files
-- `exiftool [file]` - get metadata from files
-
-### basic tools
-
-stuff you use all the time
-
-- `netcat [host] [port]` - swiss army knife of networking
-- `ssh [user@host]` - secure shell connections
-- `curl [url]` - make http requests
-- `wget [url]` - download files
-- `base64 [file]` - encode/decode base64
-- `md5sum [file]` - get file hashes
-
-### system commands
-
-regular linux stuff you need to know
-
-- `ps` - see what processes are running
-- `top` - system monitor
-- `netstat` - network connections
-- `find [path]` - find files
-- `grep [pattern]` - search text
-- `cat [file]` - show file contents
-- `ls` - list files
-- `pwd` - where am i
-- `whoami` - who am i logged in as
-
-## mr robot special commands
-
-these are the fun ones
-
-- `fsociety` - read the manifesto
-- `elliot` - elliot's personal toolkit
-- `mr-robot` - system status
-- `stage2` - phase 2 operations
-- `five9` - recreate the 5/9 attack
-
-## what you get when you run ls
-
-```
-fsociety/           - main operations
-exploits/          - collection of exploits
-payloads/          - custom payloads
-targets/           - target info
-reports/           - pentest reports
-fsociety.dat       - the main archive
-mr_robot.key       - encryption keys
-ecorp_targets.txt  - evil corp target list
-dark_army.log      - operations log
-stage2.dat         - phase 2 data
+# Launch terminal
+RUN_ME.bat
 ```
 
-## disclaimer
+### macOS Users  
+```bash
+# Clone and install
+git clone https://github.com/yourusername/fsociety-terminal.git
+cd fsociety-terminal
+chmod +x install_macos.sh
+./install_macos.sh
 
-this is just a simulation. dont be stupid with it. only use it on stuff you own or have permission to test. 
+# Launch terminal
+./run_macos.sh
+```
 
-## why this exists
+## 🛠️ Features
 
-most "hacker" terminals look like garbage from a bad movie. this one actually looks like the tools real pentesters use. based on mr robot because that show got hacking right.
+### Core Functionality
+- **80+ Simulated Security Tools** - Realistic penetration testing commands
+- **Network Reconnaissance** - Port scanning, DNS enumeration, subdomain discovery
+- **Web Application Testing** - SQL injection testing, directory bruteforcing
+- **Wireless Security** - WiFi scanning and security assessment
+- **Social Engineering** - OSINT tools and phishing simulation
+- **Forensics & Steganography** - File analysis and hidden data extraction
 
-no network activity happens - its all fake but realistic looking.
+### User Experience
+- **Authentic Terminal Interface** - Mr. Robot inspired design
+- **Matrix-Style Visual Effects** - Glitch animations and hacker aesthetics  
+- **Session Logging** - Track commands and maintain session history
+- **Fullscreen Mode** - Immersive terminal experience
+- **Safe Mode** - Compatibility option for older terminals
 
-*"we are fsociety"*
+### Customization
+- **Text Configuration System** - Customize all messages and responses
+- **Interactive Text Editor** - Easy-to-use configuration interface
+- **Profile Management** - Save and load different terminal personalities
+
+## 📋 Command Categories
+
+<details>
+<summary><strong>Network Reconnaissance</strong></summary>
+
+- `nmap`, `masscan`, `zmap`, `rustscan` - Port and network scanning
+- `hping3`, `traceroute`, `fping` - Network probing and routing  
+- `dig`, `whois`, `fierce`, `dnsrecon` - DNS enumeration
+- `sublist3r`, `amass` - Subdomain discovery
+</details>
+
+<details>
+<summary><strong>Web Application Testing</strong></summary>
+
+- `sqlmap`, `nikto`, `dirb`, `gobuster` - Web vulnerability scanning
+- `ffuf`, `wfuzz`, `whatweb`, `wafw00f` - Web fuzzing and fingerprinting
+- `burpsuite`, `owasp-zap` - Web application security testing
+</details>
+
+<details>
+<summary><strong>Wireless Security</strong></summary>
+
+- `airodump-ng`, `aircrack-ng` - WiFi scanning and analysis
+- `aireplay-ng`, `wash` - WiFi attacks and WPS scanning
+- `reaver`, `bully` - WPS PIN attacks
+</details>
+
+<details>
+<summary><strong>Password Attacks</strong></summary>
+
+- `john`, `hashcat` - Password cracking tools
+- `hydra`, `medusa` - Network login brute-forcers
+- `crunch`, `cewl`, `cupp` - Wordlist generators
+</details>
+
+<details>
+<summary><strong>Forensics & Analysis</strong></summary>
+
+- `volatility`, `autopsy` - Memory and disk forensics
+- `binwalk`, `steghide` - Firmware and steganography analysis
+- `exiftool`, `strings`, `hexdump` - File analysis and metadata
+</details>
+
+## 🔧 Building Executables
+
+### Windows Executable
+```batch
+build_exe.bat
+# Creates: dist/We_See_You.exe
+```
+
+### macOS Executable  
+```bash
+./build_macos.sh
+# Creates: dist/fsociety-terminal
+```
+
+## ⚙️ Configuration
+
+### Text Customization
+- **Windows**: Run `edit_text.bat` 
+- **macOS**: Run `python3 text_editor.py`
+- **Manual**: Edit `text_config.json` directly
+
+### Safe Mode
+For compatibility with older terminals:
+```bash
+# Windows
+RUN_ME.bat --safe
+
+# macOS  
+./run_macos.sh --safe
+```
+
+## 📁 Project Structure
+
+```
+fsociety-terminal/
+├── We_See_You.py           # Main terminal application
+├── extended_commands.py    # Additional command implementations
+├── text_config.json        # Customizable text configuration
+├── text_editor.py          # Interactive text configuration editor
+├── install_windows.bat     # Windows installer
+├── build_exe.bat          # Windows executable builder
+├── RUN_ME.bat             # Windows launcher
+├── edit_text.bat          # Windows text editor launcher
+├── install_macos.sh       # macOS installer  
+├── build_macos.sh         # macOS executable builder
+├── run_macos.sh           # macOS launcher
+└── README.md              # This file
+```
+
+## 🎓 Educational Purpose
+
+This tool is designed for:
+- **Cybersecurity Education** - Learn penetration testing concepts
+- **Training Environments** - Practice security assessment techniques
+- **Capture The Flag (CTF)** - Familiarize with common security tools
+- **Security Awareness** - Understand attack methodologies
+
+## ⚠️ Legal Disclaimer
+
+This software is intended for **educational purposes only**. Users are responsible for complying with all applicable laws and regulations. The authors are not responsible for any misuse of this software.
+
+Only use this tool on:
+- Systems you own
+- Systems you have explicit permission to test
+- Authorized training environments
+
+## 🤝 Contributing
+
+We welcome contributions! Please feel free to submit pull requests or open issues for:
+- Bug fixes
+- New command implementations  
+- Platform compatibility improvements
+- Documentation updates
+
+## 📊 System Requirements
+
+### Minimum Requirements
+- **Python**: 3.7 or higher
+- **Memory**: 512 MB RAM
+- **Storage**: 100 MB available space
+- **Display**: Terminal with color support
+
+### Recommended Requirements
+- **Python**: 3.9 or higher
+- **Memory**: 1 GB RAM  
+- **Storage**: 500 MB available space
+- **Display**: Full-screen terminal capability
+
+## 🔄 Version History
+
+- **v3.0** - Cross-platform support, text customization system
+- **v2.1** - Enhanced visual effects, session logging
+- **v2.0** - Major UI overhaul, 80+ commands  
+- **v1.5** - Stability improvements, profile system
+- **v1.0** - Initial release
+
+---
+
+**"We are fsociety. We are legion. We do not forgive. We do not forget."**
+
+*This project is not affiliated with the Mr. Robot TV series or USA Network.*

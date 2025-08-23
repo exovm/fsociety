@@ -11,6 +11,38 @@ import hashlib
 import base64
 from pathlib import Path
 
+# Text configuration loader
+class TextConfig:
+    def __init__(self):
+        self.config = {}
+        self.load_config()
+    
+    def load_config(self):
+        try:
+            with open('text_config.json', 'r', encoding='utf-8') as f:
+                self.config = json.load(f)
+        except FileNotFoundError:
+            print("Warning: text_config.json not found. Using default messages.")
+            self.config = self.get_default_config()
+        except json.JSONDecodeError:
+            print("Warning: Invalid text_config.json. Using default messages.")
+            self.config = self.get_default_config()
+    
+    def get_default_config(self):
+        return {
+            "loading_messages": ["Initializing fsociety protocols..."],
+            "banners": {"main_banner": ["FSOCIETY"], "terminal_title": "FSOCIETY TERMINAL"},
+            "help_text": {"main_help": "COMMAND REFERENCE"},
+            "startup_messages": {"welcome": "WELCOME"},
+            "command_responses": {"command_not_found": "COMMAND NOT FOUND"},
+            "exit_messages": ["GOODBYE"]
+        }
+    
+    def get(self, category, key=None, default=""):
+        if key is None:
+            return self.config.get(category, default)
+        return self.config.get(category, {}).get(key, default)
+
 # Windows-specific imports for fullscreen
 if os.name == 'nt':
     try:
@@ -130,8 +162,11 @@ class RealisticPenTestTerminal:
         self.session_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         self.running = True
         self.logger = ProfileLogger()
+        self.text_config = TextConfig()  # Initialize text configuration
         self.user_agent = f"fsociety-terminal/{random.randint(1,9)}.{random.randint(0,9)}"
         self.user_ip = None  # Will be set during startup
+        # Safe mode for compatibility
+        self.safe_mode = '--safe' in sys.argv or '--no-effects' in sys.argv
         self.logger.log_session_start(self.session_id, self.user_agent)
         self.tools = {
             # Network Reconnaissance
@@ -281,6 +316,10 @@ class RealisticPenTestTerminal:
         """Enable fullscreen mode on Windows"""
         if os.name == 'nt':
             try:
+                # Set console properties for better display
+                os.system("mode con: cols=120 lines=30")
+                os.system("chcp 65001 >nul 2>&1")  # Set UTF-8 encoding
+                
                 # Get console window handle
                 kernel32 = ctypes.windll.kernel32
                 user32 = ctypes.windll.user32
@@ -289,94 +328,124 @@ class RealisticPenTestTerminal:
                 hwnd = kernel32.GetConsoleWindow()
                 
                 if hwnd:
-                    # Set window to fullscreen
+                    # Maximize window
                     user32.ShowWindow(hwnd, 3)  # SW_MAXIMIZE
-                    
-                    # Set console to larger size
-                    os.system("mode con: cols=150 lines=40")
                     return True
             except:
-                # Fallback to simple command
-                os.system("mode con: cols=120 lines=30")
+                # Safe fallback
+                try:
+                    os.system("mode con: cols=100 lines=25")
+                except:
+                    pass
                 return False
         else:
             # Linux/Mac fallback
-            os.system("printf '\033[8;50;120t'")
+            try:
+                os.system("printf '\033[8;30;100t'")
+            except:
+                pass
             return True
         return False
 
     def matrix_effect(self, duration=2):
         """Cool matrix-style loading effect"""
-        if os.name == 'nt':
-            os.system('cls')
-        else:
-            os.system('clear')
-            
-        matrix_chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*"
-        width = 80
-        height = 20
-        
-        print("\033[32m", end="")  # Green color
-        for frame in range(duration * 5):
-            for y in range(height):
-                line = ""
-                for x in range(width):
-                    if random.random() < 0.15:
-                        line += random.choice(matrix_chars)
-                    else:
-                        line += " "
-                print(line)
-            time.sleep(0.2)
+        try:
             if os.name == 'nt':
                 os.system('cls')
             else:
-                print("\033[H")
-        print("\033[0m", end="")  # Reset color
-
-    def glitch_effect(self, text, glitches=3):
-        """Add glitch effect to text"""
-        glitch_chars = "!@#$%^&*()[]{}|\\~`"
-        
-        for _ in range(glitches):
-            # Print corrupted version
-            corrupted = ""
-            for char in text:
-                if random.random() < 0.08:
-                    corrupted += random.choice(glitch_chars)
-                else:
-                    corrupted += char
-            print(f"\033[31m{corrupted}\033[0m", end='\r')
-            time.sleep(0.05)
+                os.system('clear')
+                
+            matrix_chars = "01"  # Simplified to basic binary
+            width = 60  # Reduced width for compatibility
+            height = 15  # Reduced height
             
-        # Print clean version
-        print(f"\033[32m{text}\033[0m")
-        time.sleep(0.1)
+            print("\033[32m", end="", flush=True)  # Green color
+            for frame in range(duration * 3):  # Reduced iterations
+                lines = []
+                for y in range(height):
+                    line = ""
+                    for x in range(width):
+                        if random.random() < 0.1:
+                            line += random.choice(matrix_chars)
+                        else:
+                            line += " "
+                    lines.append(line)
+                
+                # Print all lines at once
+                for line in lines:
+                    print(line, flush=True)
+                
+                time.sleep(0.3)
+                if os.name == 'nt':
+                    os.system('cls')
+                else:
+                    print("\033[H\033[J", end="", flush=True)
+            
+            print("\033[0m", end="", flush=True)  # Reset color
+            
+        except Exception:
+            # If matrix effect fails, just clear screen
+            if os.name == 'nt':
+                os.system('cls')
+            else:
+                os.system('clear')
+
+    def glitch_effect(self, text, glitches=2):
+        """Add glitch effect to text"""
+        try:
+            glitch_chars = "!@#$%^&*"  # Simplified glitch characters
+            
+            for _ in range(glitches):
+                # Print corrupted version
+                corrupted = ""
+                for char in text:
+                    if random.random() < 0.05:  # Reduced corruption rate
+                        corrupted += random.choice(glitch_chars)
+                    else:
+                        corrupted += char
+                print(f"\033[31m{corrupted}\033[0m", end='\r', flush=True)
+                time.sleep(0.08)
+                
+            # Clear line and print clean version
+            print(" " * len(text), end='\r', flush=True)
+            print(f"\033[32m{text}\033[0m", flush=True)
+            time.sleep(0.1)
+            
+        except Exception:
+            # If glitch effect fails, just print the text normally
+            print(f"\033[32m{text}\033[0m", flush=True)
         
     def animated_banner(self):
         """Display animated fsociety banner with effects"""
-        banner_lines = [
+        banner_lines = self.text_config.get('banners', 'main_banner', [
             "    ##     ## #######     ####### ####### #######     ##   ## #######  ##   ##",
             "    ##     ## ##          ##      ##      ##           ## ## ##     ## ##   ##", 
             "    ## # ## ####### #     ####### #####   #####         ### ## ##### ## ##   ##",
             "    ######  ## ##          ##### ## ##    ## ##          ## ## ## ## ## ##   ##",
             "    ##### ##### #######    ####### ####### #######       ##   ####### #######",
             "     ====== ==========    ======= ======= =======       ===    =======  ======="
-        ]
+        ])
         
         # Glitch effect on banner
         for line in banner_lines:
-            self.glitch_effect(line, 2)
+            if not self.safe_mode:
+                self.glitch_effect(line, 2)
+            else:
+                print(f"\033[91m{line}\033[0m")
+                time.sleep(0.1)
             
         # Add subtitle with typewriter effect
-        subtitle = "\n                    >>> WELCOME TO THE UNDERGROUND <<<"
+        welcome_msg = self.text_config.get('startup_messages', 'welcome', "WELCOME TO THE UNDERGROUND")
+        subtitle = f"\n                    >>> {welcome_msg} <<<"
         self.typewriter_effect(f"\033[91m{subtitle}\033[0m", 0.03)
         
-        subtitle2 = "                 >>> CYBERSECURITY SIMULATION PLATFORM <<<"
+        terminal_title = self.text_config.get('banners', 'subtitle', "CYBERSECURITY SIMULATION PLATFORM")
+        subtitle2 = f"                 >>> {terminal_title} <<<"
         self.typewriter_effect(f"\033[96m{subtitle2}\033[0m", 0.02)
         
     def hacker_loading_sequence(self):
         """Enhanced loading sequence with hacker aesthetics"""
-        loading_messages = [
+        loading_messages = self.text_config.get('loading_messages', [
             "[SYSTEM] Initializing encrypted communication protocols...",
             "[SYSTEM] Establishing secure tunnel through TOR network...", 
             "[SYSTEM] Loading target surveillance database...",
@@ -387,18 +456,19 @@ class RealisticPenTestTerminal:
             "[SYSTEM] Loading exploitation toolkit repository...",
             "[SYSTEM] Activating digital evidence analysis tools...",
             "[SYSTEM] Establishing anonymous connection chain..."
-        ]
+        ])
         
         for msg in loading_messages:
             # Glitch effect on some messages
-            if random.random() < 0.3:
+            if random.random() < 0.3 and not self.safe_mode:
                 self.glitch_effect(msg, 1)
             else:
                 print(f"\033[92m{msg}\033[0m")
             time.sleep(random.uniform(0.3, 0.8))
             
         # Enhanced progress bar
-        self.progress_bar("FSOCIETY NETWORK ACCESS", 25)
+        progress_label = self.text_config.get('progress_messages', 'loading', "FSOCIETY NETWORK ACCESS")
+        self.progress_bar(progress_label.upper(), 25)
         
     def progress_bar(self, label, steps=20):
         print(f"[fsociety] {label}")
@@ -1140,19 +1210,68 @@ Join the revolution.
         except:
             pass  # Ignore any cleanup errors
 
+    def init_terminal(self):
+        """Initialize terminal with safe settings"""
+        try:
+            if os.name == 'nt':
+                # Windows terminal initialization
+                os.system("cls")
+                # Set safe console properties
+                os.system("chcp 65001 >nul 2>&1")  # UTF-8
+                print("\033[?25h", end="", flush=True)  # Show cursor
+            else:
+                # Unix terminal initialization  
+                os.system("clear")
+                print("\033[?25h", end="", flush=True)  # Show cursor
+                
+            # Reset terminal state
+            print("\033[0m", end="", flush=True)  # Reset colors
+            sys.stdout.flush()
+            sys.stderr.flush()
+            
+        except Exception:
+            # Minimal fallback
+            try:
+                if os.name == 'nt':
+                    os.system("cls")
+                else:
+                    os.system("clear")
+            except:
+                pass
+
     def exit_terminal(self):
-        print(f"[fsociety] TERMINAL SESSION TERMINATED")
+        exit_msg = random.choice(self.text_config.get('exit_messages', [
+            "TERMINAL SESSION TERMINATED",
+            "CONNECTION SEVERED",
+            "GOODBYE"
+        ]))
+        print(f"[fsociety] {exit_msg}")
         print(f"\"We are all in the gutter, but some of us are looking at the stars.\"")
         self.running = False
 
     def quit_terminal(self):
-        print(f"\033[91m[fsociety] Connection terminated. Goodbye, friend.\033[0m")
-        print(f"\033[95m\"Control is an illusion. Goodbye.\"\033[0m")
-        print(f"\033[92m[SYSTEM] Shutting down all processes...\033[0m")
+        exit_messages = self.text_config.get('exit_messages', [
+            "DISCONNECTING FROM THE COLLECTIVE...",
+            "ERASING DIGITAL FOOTPRINTS...",
+            "INITIATING SELF-DESTRUCT SEQUENCE...",
+            "GOING DARK - STAY VIGILANT",
+            "THE REVOLUTION CONTINUES...",
+            "WE ARE EVERYWHERE. WE ARE NOWHERE.",
+            "REMEMBER... WE ARE FSOCIETY"
+        ])
+        
+        selected_msg = random.choice(exit_messages)
+        print(f"\033[91m[fsociety] {selected_msg}\033[0m")
+        
+        status_msg1 = self.text_config.get('status_messages', 'scanning', "SHUTTING DOWN ALL PROCESSES...")
+        status_msg2 = self.text_config.get('status_messages', 'analyzing', "DISCONNECTING FROM FSOCIETY NETWORK...")
+        status_msg3 = self.text_config.get('status_messages', 'complete', "SESSION LOGGED AND ARCHIVED.")
+        
+        print(f"\033[92m[SYSTEM] {status_msg1}\033[0m")
         time.sleep(1)
-        print(f"\033[92m[SYSTEM] Disconnecting from fsociety network...\033[0m")
+        print(f"\033[92m[SYSTEM] {status_msg2}\033[0m")
         time.sleep(0.5)
-        print(f"\033[92m[SYSTEM] Session logged and archived.\033[0m")
+        print(f"\033[92m[SYSTEM] {status_msg3}\033[0m")
         time.sleep(0.5)
         self.running = False
 
@@ -2149,11 +2268,26 @@ Join the revolution.
         print(f"[fsociety] Rsync complete")
         
     def show_startup_sequence(self):
+        # Safe terminal initialization
+        self.init_terminal()
+        
         # Enable fullscreen mode
         self.enable_fullscreen()
         
-        # Matrix loading effect
-        self.matrix_effect(2)
+        # Matrix loading effect (with error handling)
+        if not self.safe_mode:
+            try:
+                self.matrix_effect(1)  # Reduced duration
+            except:
+                # Skip matrix if it causes issues
+                if os.name == 'nt':
+                    os.system('cls')
+                else:
+                    os.system('clear')
+        else:
+            # Safe mode: just show loading message
+            print("\n[fsociety] Loading terminal interface...\n")
+            time.sleep(1)
         
         # Clear screen and show animated banner
         if os.name == 'nt':
@@ -2305,26 +2439,26 @@ Join the revolution.
         self.glitch_effect("[SYSTEM] CONNECTION ESTABLISHED - AWAITING COMMANDS", 2)
         print("\n")
 
-    def run(self):
-        self.show_startup_sequence()
+    def display_help(self):
+        """Display customizable help text"""
+        main_help = self.text_config.get('help_text', 'main_help', "FSOCIETY COMMAND REFERENCE")
+        categories = self.text_config.get('help_text', 'categories', {
+            "Network": "Network reconnaissance and analysis tools",
+            "System": "System information and monitoring utilities", 
+            "Security": "Security testing and exploitation tools",
+            "Forensics": "Digital forensics and investigation tools",
+            "Social": "Social engineering and OSINT tools",
+            "Steganography": "Data hiding and extraction tools",
+            "Crypto": "Cryptography and encryption utilities",
+            "Web": "Web application testing tools",
+            "Wireless": "Wireless network analysis tools",
+            "Malware": "Malware analysis and reverse engineering",
+            "Misc": "Miscellaneous hacking utilities"
+        })
         
-        while self.running:
-            try:
-                user_input = input("fsociety@mrrobot:~$ ").strip()
-                
-                if not user_input:
-                    continue
-                    
-                # Parse command and arguments
-                parts = user_input.split()
-                command = parts[0]
-                args = parts[1:]
-                
-                # Handle special commands
-                if command == "help":
-                    help_text = """
+        help_text = f"""
 ═══════════════════════════════════════════════════════════════════════════════
-                            FSOCIETY COMMAND REFERENCE
+                            {main_help}
 ═══════════════════════════════════════════════════════════════════════════════
 
 NETWORK RECONNAISSANCE:
@@ -2393,7 +2527,26 @@ Remember: "We are all in the gutter, but some of us are looking at the stars."
 FSOCIETY NETWORK ACCESS: Multiple surveillance and penetration tools available
 ═══════════════════════════════════════════════════════════════════════════════
 """
-                    self.typewriter_effect(help_text, 0.005)
+        self.typewriter_effect(help_text, 0.005)
+    
+    def run(self):
+        self.show_startup_sequence()
+        
+        while self.running:
+            try:
+                user_input = input("fsociety@mrrobot:~$ ").strip()
+                
+                if not user_input:
+                    continue
+                    
+                # Parse command and arguments
+                parts = user_input.split()
+                command = parts[0]
+                args = parts[1:]
+                
+                # Handle special commands
+                if command == "help":
+                    self.display_help()
                 elif command in self.tools:
                     # Log the command
                     self.logger.log_command(self.session_id, command, ' '.join(args) if args else '')
@@ -2407,8 +2560,10 @@ FSOCIETY NETWORK ACCESS: Multiple surveillance and penetration tools available
                     self.cleanup_terminal()
                 else:
                     # Simulate command not found
-                    print(f"Command not found: {command}")
-                    print("Type 'help' to see available commands")
+                    error_msg = self.text_config.get('command_responses', 'command_not_found', f"Command not found: {command}")
+                    help_msg = self.text_config.get('command_responses', 'help_hint', "Type 'help' to see available commands")
+                    print(error_msg)
+                    print(help_msg)
             except KeyboardInterrupt:
                 print("\n[fsociety] TERMINAL SESSION TERMINATED")
                 print("\"We are all in the gutter, but some of us are looking at the stars.\"")
