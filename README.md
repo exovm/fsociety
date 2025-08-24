@@ -1,7 +1,5 @@
 # fsociety terminal
-
-basically a mr robot inspired hacker terminal that actually looks legit instead of that hollywood garbage.
-
+I DELTED ALL THE FILES FOR THIS PROJECT SO NOT UPDATES 
 ```
 ███████╗███████╗ ██████╗  ██████╗██╗███████╗████████╗██╗   ██╗
 ██╔════╝██╔════╝██╔═══██╗██╔════╝██║██╔════╝╚══██╔══╝╚██╗ ██╔╝
